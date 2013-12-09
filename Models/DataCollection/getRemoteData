@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# 100 files : at least 10Go
+
+#remoteDir=$1
+#localDir=$2
+#ok everything is fixed in fact
+
+#cd $localDir
+#rm -r temp
+#mkdir temp
+
+#sshpass -p $PASSWORD scp -r $USER"@$HOST":"$remoteDir temp
+#let do it with progress info (more tricky)
+#sshpass -p $PASSWORD scp -r $USER"@$HOST" ls $remoteDir > archiveslist
+#n=$(cat archiveslist | wc -l)
+#echo "files to transfert: "$n
+#echo "remote directory: "$remoteDir
+
+#in order to deal with temporary interruption, we have a fixed local file with remaining zip files to download, which is updated progressively
+
+n=$(cat remainingFiles | wc -l)
+
+while [ $n -gt 0 ]
+do
+  fileName=$(head -1 remainingFiles)
+  echo "Getting file "$fileName
+  sshpass -p$PASSWORD scp -r $USER@$HOST:/home/Juste/BikesData/archives/$fileName ../../Data/data
+  #unzips
+  echo $fileName | awk -F"." '{print "unzip -j -o ../../Data/data/"$1".zip -d ../../Data/data/"$1}' | sh
+  #puts dir name in temp local file
+  echo $fileName | awk -F"." '{print "echo "$1}' | sh  > currentDir
+  #calls R for file creation, that uses currentDir file and creates csv
+  echo "Calling R extraction script..."
+  r -f csvImport.R
+  #cleaning zip and dir
+  rm ../../Data/data/$fileName
+  rm -R ../../Data/data/`cat currentDir`
+  #putting head of files away
+  tail -n `expr $n - 1` remainingFiles > tempfiles
+  cat tempfiles > remainingFiles
+  rm tempfiles  
+
+  n=`expr $n - 1`
+
+done
+
+
+#i=0
+#cat archiveslist  | awk '{print "sshpass -p $PASSWORD scp -r $USER"@$HOST"7:/home/Juste/BikesData/testtransfert/"$1 "\" temp ; echo \"Progress: \" `expr 100 \\* $i / $n` ; i=`expr $i + 1`"}' | sh
+
+#rm archiveslist
+
+#create dirs
+#ls temp  | awk -F"." '{print "mkdir "$1}' | sh
+
+#unzip files in dirs
+#ls temp  | awk -F"." '{print "unzip -j -o temp/"$1".zip -d "$1}' | sh
+
+#clean zip files; is it needed ?
+#rm -R temp

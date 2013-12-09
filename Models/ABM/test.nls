@@ -1,0 +1,48 @@
+;;;;;;;;;;;;;
+;; test of functions
+;;;;;;;;;;;;;
+
+to test-movement [n-ticks]
+  ;setup
+  reset-ticks
+  ask bikers [die]
+  repeat n-ticks [
+    ;;create 1 new traveler each 5 time ticks ?
+    if ticks mod 5 = 0 [
+      create-bikers 1 [
+        set size 20 set shape "bike"set color 86
+        
+        ;;dont forget speed
+        set speed 2
+        
+        let origin one-of cached-vertices
+        let destination one-of cached-vertices with [self != origin]
+        set current-travel get-symmetric-table cached-paths (list ([who] of origin) ([who] of destination))
+        set current-objective destination
+        set current-origin origin
+        
+        ;;shit, need to reverse the path if needed
+        if not member? origin [both-ends] of first current-travel [set current-travel reverse current-travel]
+        
+        move-to origin
+        set current-edge first current-travel
+        let h 0 ask current-edge [ask origin [set h towards other-end]] set heading h
+        
+      ]
+    ]
+    
+    ;;move all
+    move-bikers
+    
+    ;;kill finished ones
+    ask bikers with [current-travel = []] [die]
+    
+    tick
+  ]
+end
+
+
+to test-densities
+  reset-ticks
+  repeat total-time-steps [color-destination-probas ticks tick]
+end

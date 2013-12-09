@@ -1,0 +1,553 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+M2 Erasmus Mundus Complex Systems
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+Open problems
+\begin_inset Quotes erd
+\end_inset
+
+ project description
+\end_layout
+
+\begin_layout Author
+
+\noun on
+Juste Raimbault
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+Département HSS, Ecole Polytechnique ParisTech
+\begin_inset Newline newline
+\end_inset
+
+LVMT, Ecole Nationale des Ponts et Chaussées
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\shape italic
+\size large
+Investigating bottom-up solutions to optimization
+\shape default
+\size default
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\shape italic
+\size large
+of rental Bikes repartition
+\shape default
+\size default
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Presentation of the context
+\end_layout
+
+\begin_layout Standard
+City rental bikes systems have been recently installed in many big European
+ cities.
+ The flexibility offered to users, the decongestion of car traffic and the
+ contribution to a more 
+\begin_inset Quotes eld
+\end_inset
+
+clean
+\begin_inset Quotes erd
+\end_inset
+
+ urban mobility have been for example presented as arguments in favor of
+ such kind of system, as it is argued in an unformal way in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "anderson2007paris"
+
+\end_inset
+
+.
+ According to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "midgley2009role"
+
+\end_inset
+
+, at least 16 countries have adopted it, although majority of implemented
+ systems are still in France (26 systems in France out of 78 in the world).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Planning of stations distribution stays a keypoint in a particular implementatio
+n and studies have been conducted to understand planning features, adaptability
+ and reproductability of a configuration, as it is done in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "geng2009bike"
+
+\end_inset
+
+ on Paris in order to evaluate possible implantation in a Chinese city,
+ or in a more transversal and general view in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gifford2004will"
+
+\end_inset
+
+ where different factors of success or fail of city rental bikes are investigate
+d.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After the system is installed, some problems often appears through its use:
+ depending on time of day and landuse (residential or work area), stations
+ can be totally empty or full on a all district, what strongly decrease
+ the quality of the service and does not encourage the users to go on using
+ it.
+ Field survey or eye overview on data can simply confirm that fact.
+ Therefore, companies use trucks to redistribute the bikes and avoid such
+ problems.
+ That need a precise knowledge of flows or even hypothetical trajectories
+ of bikes, what have been done on the Velo'v system in Lyon: construction
+ of a fine statistical cyclic model in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009modelisation,borgnat2009studying"
+
+\end_inset
+
+, extrapolation of spatial distribution of bikes in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009spatial"
+
+\end_inset
+
+, deduction of probabilities of trajectories in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jensen2010characterizing"
+
+\end_inset
+
+ and refinment of the statistical estimators in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "michau2011peut"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Work proposal and expected results
+\end_layout
+
+\begin_layout Paragraph
+Project description
+\end_layout
+
+\begin_layout Standard
+Most of existing litterature on the subject seems to be centered on statistical
+ analysis and prediction, i.
+ e.
+ top-down optimization methods from a complex systems point of view, as
+ the statistical analysis presented before.
+ Through these flow predictions, it is obvious to proceed to operationnal
+ research optimisation, e.
+ g.
+ to a weighted Trade-Saleman-Problem algorithm for optimization of the trajector
+y of the redistribution truck.
+ However, the results of such mehods can be complicated or costly to implement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We would like to investigate how could be useful bottom-up simple and cheap
+ measures for a better repartition of bikes, or at least for a better experience
+ of the user.
+ Since such measures can only be taken at the local scale of stations or
+ bike, or on isolated users, it appears to be necessary to create an agent-based
+ model of simulation for movements of users and bikes, in which local measures
+ can be integrated.
+ For example, we could first try to evaluate the consequences of the free-time
+ reward when a user let his bike on a high station (solution that has already
+ been implemented, but that could need a better evaluation of the optimal
+ reward time).
+ Then local solution can be faster information screens on stations that
+ give available bikes or parking places on other station around, or the
+ effect of better general knowledge of the system by users.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since high bonus stations can be a minority of the system, we may concentrate
+ more on the propensity of user to drop or take their bikes at a certain
+ distance of their objective point (which will be of course a function of
+ the distance and possibly of the type of user if we define heterogeneous
+ users) and on the associated possible knowledge that the user can have
+ of the current situation of the bike distribution.
+ Given distribution of stations and spatial tendancies of flows, it is not
+ obvious that increasing these parameters will directly impact the homogeneity
+ of bikes repartition (a simple argument going that way can be the case
+ were a user can't go over a certain walking distance, but all network is
+ congestioned on a greater radius around his objective point; in that case
+ increasing his knowledge will have no effect).
+ We can work in a first time with these parameters staying abstract, and
+ then try to determine possible corresponding real measures, but also by
+ reviewing possible measures and translating with these parameters as proxies.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To sum up abstractly, our aim is to explore bottom-up measures through directly
+ associated bottom-up means (the agent-based model).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Collect and treatment of data
+\end_layout
+
+\begin_layout Standard
+The model will have to be usable on real situations, we have therefore to
+ use GIS data of a real city, that will be arbitrary Paris.
+ The collection of GIS data can be done through OpenStreetMap (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bennett2010openstreetmap"
+
+\end_inset
+
+) and associated tools for data extraction and treatment.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Concerning temporal data of bike repartition, no time-series are publically
+ available on the API of the company exploiting renting bikes in Paris,
+ so we wrote a script which is constantly running on a web server, collecting
+ all 5 minutes all data of all stations in Paris.
+ Simple treatment will give us exploitable time-series for the calibration
+ of the model.
+ Statistical analysis of these data will be done in the frame of an other
+ project and could be useful in our case for a better parametrization.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Expected results
+\end_layout
+
+\begin_layout Standard
+We expect to obtain a running ABM, integrating real GIS data and that could
+ be calibrated on the real time-series or on statistical extrapolation from
+ these data.
+ The model will include parameters translating possible local measures (that
+ could be e.
+ g.
+ propensy of users to climb the hill, general radius of knowledge of user
+ around fixed points, etc.
+ ) on which we will be able to explore different scenarii corresponding
+ to different real measures.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We expect also to proceed to sensitivity analysis (on parameters but also
+ on spatial configurations) and exploration of some parts of the parameter
+ space of the model before drawing conclusions from the investigations on
+ possible measures.
+\end_layout
+
+\begin_layout Section
+Detailed schedule
+\end_layout
+
+\begin_layout Subsubsection*
+General preparation
+\end_layout
+
+\begin_layout Itemize
+General bibliography: 2h
+\end_layout
+
+\begin_layout Itemize
+General reflexion: already done
+\end_layout
+
+\begin_layout Itemize
+Temporal data collection: already done
+\end_layout
+
+\begin_layout Itemize
+Temporal data statistical analysis: done in the frame of an other project
+ (2h per week).
+ Needs to be done before first explorations, i.
+ e.
+ before 01/12.
+ 
+\end_layout
+
+\begin_layout Standard
+Total: 2h, before the 13/10
+\end_layout
+
+\begin_layout Subsubsection*
+Theoretical construction of the Agent-based model (2 weeks)
+\end_layout
+
+\begin_layout Itemize
+Study on agents, scale and environment: 2h
+\end_layout
+
+\begin_layout Itemize
+Determination of interactions, properties and evolution rules: 2h
+\end_layout
+
+\begin_layout Itemize
+Formal description of the model: 4h
+\end_layout
+
+\begin_layout Standard
+Total: 8h, before the 27/10
+\end_layout
+
+\begin_layout Subsubsection*
+Implementation and coding (3 weeks)
+\end_layout
+
+\begin_layout Itemize
+Intermediate script for temporal data integration into NetLogo: 2h
+\end_layout
+
+\begin_layout Itemize
+GIS data collection and integration: 2h
+\end_layout
+
+\begin_layout Itemize
+Core model coding (NetLogo): 12h
+\end_layout
+
+\begin_layout Itemize
+Possible feedbacks on theoretical construction: undefined
+\end_layout
+
+\begin_layout Standard
+Total: 16h, before the 17/11
+\end_layout
+
+\begin_layout Subsubsection*
+Model exploration and calibration (2 weeks)
+\end_layout
+
+\begin_layout Itemize
+Tests and 
+\begin_inset Quotes eld
+\end_inset
+
+hand
+\begin_inset Quotes erd
+\end_inset
+
+ exploration, sensitivity analysis: 4h
+\end_layout
+
+\begin_layout Itemize
+Automatic exploration: 0h (functions coding counted in coding part, does
+ not represent work here, only launch calculations during nights)
+\end_layout
+
+\begin_layout Itemize
+Calibration (on MSE on temporal data): 4h (idem as previous point, unless
+ we include for this part exploration of results obtained thanks to calibration)
+\end_layout
+
+\begin_layout Standard
+Total: 8h, before the 01/12
+\end_layout
+
+\begin_layout Subsubsection*
+Analysis of results, discussion, finalisation of reports and presentation
+ (2 weeks)
+\end_layout
+
+\begin_layout Itemize
+Results analysis: 3h
+\end_layout
+
+\begin_layout Itemize
+Discussions, possible feedback on explorations: 3h
+\end_layout
+
+\begin_layout Itemize
+Redaction of documents and oral presentation: 4h (should have logically
+ strongly been begun inside some other parts)
+\end_layout
+
+\begin_layout Standard
+Total: 10h, before the 15/12
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/Juste/Documents/ComplexSystems/CityBikes/Biblio/bibtex"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

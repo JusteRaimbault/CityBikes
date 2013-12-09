@@ -1,0 +1,190 @@
+;;;;;;;;;;;;;;;;;;;
+;; setup procedures
+;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;
+;;
+;; Overall setup is quite complicated
+;; since many dependances between vars and data impose certain order
+;; possible to fix that ? yes but with less organised structure ?
+;;;;;;;;;;;;;;;;;
+
+
+
+
+
+
+to setup
+  setup-world-and-vars
+  
+  ;;gis setup is done separately
+  setup-geography
+  
+  ;;setup data
+  ;;needed for stations setup, but needs GIS setup !
+  setup-r-data
+  
+  ;;setup agents
+  setup-bikers
+  setup-stations
+    
+  ;;calculation of some shortest paths (a given proportion)
+  ;;should we put it here ?
+  ;;at this place to have no dead path in travels
+  ;;(after connection of stations)
+  calculate-cache
+  
+  ;;calculate and load other data
+  calculate-r-data
+  
+  setup-initial-bikes
+  
+  output-print "Model set up, ready to run !"
+  
+end
+
+
+
+
+to setup-world-and-vars
+  output-print "Setting up vars"
+  clear-all
+  reset-ticks
+  
+  ;;we resize the world in gis data loading in order to have well dimensioned window
+  
+  
+  ;;;;;
+  ;; set vars
+  ;;;;;
+  
+  ;;root path is calculated (for portability!)
+  ;;quite dirty ?
+  set project-root-path word implode-with-delimiter (but-last but-last explode "/" (word pathdir:get-model)) "/" "/"
+  
+  ;;interval of one minute
+  set real-time-step 1
+  
+  set mean-biker-speed 300
+end
+
+
+
+to calculate-cache
+  output-print "Calculating cache"
+  set cached-paths table:make
+  set cached-distances table:make
+  set cached-vertices n-of floor (shortest-calc-prop * count vertices / 100 ) vertices
+  let points to-list cached-vertices
+  let remaining-points points
+  ;;dont forget to snapshot
+  snapshot
+  
+  foreach points [
+     set remaining-points but-first remaining-points
+     set cache-remaining-points length remaining-points
+     ;;cached table will be symmetric, search in it should check both possible keys
+     ;;(avoid a half unuseful calculations)
+     ask ? [
+       foreach remaining-points [
+         let p (nw:weighted-path-to ? "path-length")
+         table:put cached-paths (list [who] of self [who] of ?) p
+         table:put cached-distances (list [who] of self [who] of ?) (nw:weighted-distance-to ? "path-length")* real-patch-size ; (sum [path-length] of to-agentset p)
+       ]
+     ]
+  ]
+  
+end
+
+
+
+to setup-bikers
+  ;;should be used in test mode; also things to set in data mode ?
+  
+end
+
+
+
+
+to setup-stations
+  output-print "Setting-up stations"
+  ;;create abstract entities stations
+  ;;load id, properties
+  ;; ! need a file with stations properties ! - since GIS layer is done by hand, not in Attributes !
+  let i 0
+  foreach gis:feature-list-of stations-layer-data [
+    let X1 gis:property-value ? "X1" let X2 gis:property-value ? "X2"
+    foreach gis:vertex-lists-of ? [
+       let location gis:location-of first ?
+       
+       ;;need to find index of station in the charac list
+       ;;logically should be in order but OGR and NL-GIS extension could read vector file in different ways ?
+       ;;test it -> huge gain in simplicity if true.
+       ;let ind 0 let i 0
+       ;foreach item 1 stations-characs [if abs (item i item 1 stations-characs - X1) < 0.0001 and abs (item i item 2 stations-characs - X2) < 0.0001 [set ind i] set i i + 1]
+       ;show ind
+       ;OK it fucking works, reading of GIS file is the same.
+       
+       create-stations 1 [
+         set shape "vlib" set size 13 set heading 0
+         setxy first location last location
+         set id item i item 0 stations-characs
+         set capacity item i item 3 stations-characs                 
+       ]
+    ]
+    set i i + 1
+  ]
+  
+  ;;connect stations to network: creates an intersection under the station (simpler), links it perpendiculary to nw using intersection
+  connect-stations-to-network
+  
+end
+
+
+
+to connect-stations-to-network
+  output-print "...connecting to network"
+  ;;recuperation of the code "growing nw of urban framework"
+  ask stations [
+    let mx xcor let my ycor
+    let nearest-path first sort-on [distance-to-point mx my] paths
+    let inter nobody
+    ask nearest-path [
+       let coord-inter coord-of-projection-of mx my
+       ask one-of vertices [hatch 1 [setxy first coord-inter last coord-inter set inter self]]
+    ]
+    let e1 one-of vertices let e2 one-of vertices
+    ask nearest-path [
+       set e1 end1 set e2 end2
+       die
+    ]
+    ask inter [hide-turtle if inter != e1 [create-path-with e1 [new-path]] if inter != e2 [ create-path-with e2 [new-path]]]
+    ask one-of vertices [
+      hatch 1 [
+        setxy mx my
+        hide-turtle
+        create-path-with inter [new-path]
+      ]
+    ]
+  ]
+  
+end
+
+
+
+
+
+to setup-initial-bikes
+  let snum 0
+  foreach real-load-factors [
+    ask one-of stations with [id = item snum item 0 stations-characs ] [set standing-bikes round (first ? * capacity)] 
+    set snum snum + 1
+  ]
+end
+
+
+
+
+
+

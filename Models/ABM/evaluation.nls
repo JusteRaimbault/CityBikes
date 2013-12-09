@@ -1,0 +1,29 @@
+;;;;;;;;;;;;;;
+;; global reporters and function for evaluation
+;;;;;;;;;;;;;;
+
+
+to reset-reporters
+  ;;called at the beginning of a day run
+  reset-load-factors
+  
+  ;;other things to reset ?
+end
+
+
+to reset-load-factors
+  set load-factors rep (rep 0 (length item 0 real-load-factors)) length real-load-factors
+end
+
+
+
+to store-reporters
+  
+  ;;store new load factors
+  ask stations [
+    let i position id (first stations-characs) 
+    set load-factors replace-item i (replace-item ticks load-factor (item i load-factors)) load-factors
+  ]
+  
+  
+end

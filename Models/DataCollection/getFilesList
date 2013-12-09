@@ -1,0 +1,4 @@
+#!/bin/sh
+#dir fixed
+sshpass -p $PASSWORD scp -r $USER"@$HOST" ls /home/Juste/BikesData/archives > archiveslist
+cp archiveslist remainingFiles

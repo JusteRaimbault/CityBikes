@@ -1,0 +1,224 @@
+;;;;;;;;;;;;;;;;;
+;; Bikers procedures
+;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;
+;;
+;; Rq: most of move procedure simplified from Urban Mobility project code, CSSS2013
+;; (authors ...)
+;;
+;; Check out at <a href=https://www.github.com/UrbanMobility/UrbanMobilityNew>Github repository</a>
+;;
+;;;;;;;;;;;
+
+
+;;beware : values of length of edges may not be at scale -> check that and add a scaling factor during import of GIS data if needed.
+
+;;people are always travelling, we neglect decision time (could it be wrong ? at small scales maybe.
+;;Could explore robustness of the model of simulation regarding this assumption
+
+to move-bikers
+  ;;procedure for just move, rerouting or dying will be done separately
+  ask bikers[move-one-time-step]
+end
+
+
+to move-one-time-step
+  
+  ;do we need to cumul travel time ?
+  ;set travel-time travel-time + 1
+  set remaining-time-in-tick real-time-step
+  
+  while [remaining-time-in-tick > 0] [
+    move-in-current-edge
+  ]
+  
+end
+
+
+to move-in-current-edge
+;;go ahaed as much as possible during time offered and regarding length of edge, change edge if needed.
+    
+    let possible-distance-in-edge speed * real-time-step
+    
+    ifelse possible-distance-in-edge < remaining-distance-in-edge [
+      
+      ;;simple move : the agent don't finish the edge, advance just in one step without changing current edge
+      ;;don't forget update remaining distance
+      
+      set remaining-time-in-tick 0
+      set remaining-distance-in-edge remaining-distance-in-edge - possible-distance-in-edge
+      
+      ;;heading has to be set: ok dont forget to set it at the beginning of a travel (fur current, done at edge change)
+      fd possible-distance-in-edge
+      
+    ][
+      ;; the other case go to end of edge
+      ;; decrease remaining time by time to reach it
+      ;; update current-edge
+      
+      fd remaining-distance-in-edge
+      set remaining-time-in-tick remaining-time-in-tick - (remaining-distance-in-edge / speed) 
+      change-edge-or-finish-travel
+      
+    ]
+    
+end
+
+
+to change-edge-or-finish-travel
+  ;;if travel is finished == current path is empty, do nothing
+  if current-travel != [][
+    ;else change edge and continue travel
+    
+    ;;position correction -> needed ?
+    let n one-of (([both-ends] of current-edge) with-min [distance myself])
+    setxy [xcor] of n [ycor] of n ;;strange but seems faster than move-to!
+    
+    ;;change edge
+    set current-edge first current-travel
+    set current-travel but-first current-travel
+    set remaining-distance-in-edge [link-length * real-patch-size] of current-edge
+    ;;dont forget heading !!!
+    let h 0
+    set n one-of (([both-ends] of current-edge) with-min [distance myself])
+    ask current-edge [
+      ask n [set h towards other-end ]
+    ]
+    set heading h
+  ]
+end
+
+
+;;constructor for bikers, should be called by observer because vertices or stations can't hatch biker !
+to new-traveler [entering? origin]
+  let o nobody ask origin [set o one-of cached-vertices with-min [distance myself]]
+  
+  ;;pick a destination
+  let d nobody
+  ifelse entering?[
+    set d pick-destination
+    set out-travel? false
+  ][
+    ;;internal travels can be possible !
+    ifelse random-float 100 < internal-travel-prop [
+      set d pick-destination set out-travel? false
+    ][
+      let io one-of io-vertices set d one-of cached-vertices with-min [distance io]
+      set out-travel? true
+    ]
+  ]
+  
+  ;;bord effect ! ?
+  if d = o [set d one-of cached-vertices with [self != o]]
+  
+  ;;basics
+  set size 20 set shape "bike" set color 86
+        
+  ;;set characs
+  set speed mean-biker-speed
+  set tolerance-radius mean-tolerance-radius
+  
+  ;;information
+  ifelse random-float 100 < info-proportion [set has-information? true][set has-information? false]
+  
+  ;;set travel
+  set current-travel get-symmetric-table cached-paths (list ([who] of o) ([who] of d))  
+  if not member? o [both-ends] of first current-travel [set current-travel reverse current-travel]
+  
+  set current-objective d
+  set current-origin o
+        
+  enter-travel
+end
+
+
+;;requires current-origin and current-travel have been set !
+to enter-travel
+  move-to current-origin
+  set current-edge first current-travel
+  set current-travel but-first current-travel
+  set remaining-distance-in-edge [link-length * real-patch-size] of current-edge
+  let h 0 ask current-edge [ask current-origin [set h towards other-end]] set heading h     
+end
+
+
+to-report pick-destination
+  let tot 0
+  foreach destination-probas [ set tot tot + item ticks ?]
+  if tot = 0 [report one-of cached-vertices]
+  let r random-float tot
+  let k 0 set tot 0
+  foreach destination-probas [
+     let i floor (k / data-width-steps)
+     let j remainder k data-width-steps
+     set tot tot + item ticks ?
+     if r < tot [
+       let p patch min list (world-width - 1) floor (i * world-width / data-width-steps)  min list (world-height - 1) floor (j * world-height / data-width-steps)
+       report one-of cached-vertices with-min [distance p]
+     ]
+     set k k + 1
+  ]
+  report one-of cached-vertices
+end
+
+
+
+
+to-report pick-origin
+  let tot 0
+  foreach origin-probas [ set tot tot + item ticks ?]
+  if tot = 0 [report one-of cached-vertices]
+  let r random-float tot
+  let k 0 set tot 0
+  foreach origin-probas [
+     let i floor (k / data-width-steps)
+     let j remainder k data-width-steps
+     set tot tot + item ticks ?
+     if r < tot [
+       let p patch min list (world-width - 1) floor (i * world-width / data-width-steps)  min list (world-height - 1) floor (j * world-height / data-width-steps)
+       report one-of cached-vertices with-min [distance p]
+     ]
+     set k k + 1
+  ]
+  report one-of cached-vertices
+end
+
+
+
+
+to reroute-to-station
+  ;;procedure to find station in tolerance radius, where to drop bike !
+  ;;here we go to not-cached vertices, shortest path calc done by hand !
+  let o one-of vertices with-min [distance myself]
+  let d nobody
+  ifelse has-information? [
+    ;;both finds -> where there is place; and the closest !
+    let possibles (stations with [capacity - standing-bikes > 0])    
+    ;;if no station, have to get out of the zone
+    ifelse count possibles = 0 [let io one-of io-vertices set d one-of cached-vertices with-min [distance io] set out-travel? true]
+    [let s first sort-on [distance myself] possibles set d one-of vertices with-min [distance s]]
+  ][
+    ;;no info: that's where tolerance radius appears
+    let s one-of stations in-radius tolerance-radius set d one-of vertices with-min [distance s]
+  ]
+  let p []
+  ask o [set p nw:weighted-path-to d "path-length"]
+  set current-travel p set current-origin o set current-objective d
+  enter-travel
+end
+
+
+to drop-bike[target-station]
+  ;;only increase standing bikes
+  ask target-station [set standing-bikes standing-bikes + 1]
+end
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,168 @@
+;;;;;;;;;;;;;
+;; r setup procedure
+;;;;;;;;;;;;;
+
+
+
+to setup-r-data
+  output-print "Setting up R interface"
+  setup-r-functions
+  setup-data
+  ;calculation has to be done AFTER caching distances !
+end
+
+
+;;source r file with functions
+to setup-r-functions
+  output-print "... R functions"
+  ;;path is supposed to stay the same
+  r:eval (word "source(\"" project-root-path "Models/Statistics/NLFunctions.R\")") 
+end
+
+;;;;;;;;;;;;;;;;;;;;
+;;must load time series of densities of origin/destination
+;; -> what discretisation of space for the discrete field ?
+;; -> what time interval ?
+;;
+;; Need also :
+;;  - time serie of entering travels
+;;  - out --
+;;  - internal travels
+;; -> gives bord conditions; number of travels. When a travel is created, then use densities to associate origin or destination
+;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;
+;;
+;; Calculation of the discrete "intention field"
+;;
+;; -> characterized as a probability distribution ? Yep, number of travels determined by bord time series and internal travels (difficult to find...)
+;; -> extrapolated from the values at t + mean_travel_time ? or by integration on a "possible" window of travel times
+;; in any cases need a sort of inference of travels. may be difficult...
+;;
+;; NOTE that the core of the model resides in a way in that parametrisation. Calibration has to be done on a reduced number of scalar parameters ruling that parametrization.
+;;
+;;;;;;;;;;;;;;;;;
+
+
+
+to setup-data
+  output-print "... loading R data"
+  ;;get data time step
+  ;set data-time-step r:get "print(\"\")"
+  
+  ;;get basic characteristics
+  set stations-characs r:get (word "getStationsCharacs(\"" project-root-path "Data\",\"" first explode "." (last explode "/" stations-layer-path) "\")")
+  
+  ;;get intentions time series -> discrete field on patches.
+  ;;function need number of patches
+  ;set destination-probas r:get "" ;;fill command
+  ;set origin-probas r:get "" ;idem
+  
+  ;;get objective time series of real arrivals/departures.
+  ;; -> travels extracted from that; calibration done on that!
+  ;;real load factors, we deduce dpartures/arrivals from that
+  set real-load-factors extrapolate r:get (word "getLoadFactors(\"" project-root-path "Data\",\"" first explode "." (last explode "/" stations-layer-path) "\")")
+  
+  set total-time-steps length item 0 real-load-factors
+  
+end
+
+
+
+;;extraction of boundary travel incoming flows from real deposits
+;; -> ok let sum uniform distrib; should keep track of total sum of incoming travels
+;;to have conservation of probas ?
+;;no let put some noise and extract approximated values
+;; in mean: converges so ok
+to calculate-r-data
+  output-print "Calculating R data"
+  
+  output-print "... extracting real travels"
+  ;;extraction of real arrivals
+  set real-arrivals []
+  set real-departures []
+  ;;need stations, objective time serie
+  ;;real departures is not needed, only an approximation of total dep number, 
+  let s 0 let n-t-step length item 0 real-load-factors
+  set departures-numbers seq 0 n-t-step 0
+  foreach real-load-factors [
+    let current-time 0 let previous-chge-time 0 let in-travel? false let current-charge first ? let tot-chge 0 let capa item s item 3 stations-characs let num item s item 1 stations-characs
+    let arrivals seq 0 n-t-step 0
+    let departures seq 0 n-t-step 0
+    foreach but-first ? [
+       let next-charge ?
+       set tot-chge tot-chge + (capa * (next-charge - current-charge))
+       if (next-charge - current-charge != 0) [if not in-travel? [set in-travel? true set previous-chge-time current-time]]
+       if tot-chge >= 1 [
+           set tot-chge 0 set in-travel? false
+           let t previous-chge-time + random (current-time - previous-chge-time + 1)
+           set arrivals incr-item t arrivals 1
+       ]
+       if tot-chge <= -1 [ 
+           set tot-chge 0 set in-travel? false
+           let t previous-chge-time + random (current-time - previous-chge-time + 1)
+           set departures incr-item t departures 1
+           set departures-numbers incr-item current-time departures-numbers 1 ]
+       set current-charge next-charge
+       set current-time current-time + 1
+    ]
+    set s s + 1  
+    set real-arrivals lput arrivals real-arrivals
+    set real-departures lput departures real-departures
+  ]
+  
+  ;;calculation of boundaries probabilities
+  
+  output-print "... boundaries probas"
+  ;io-vertices have at the end time serie of (n_trials) of the binomial law
+  ;;init io vertices
+  ask io-vertices [set io-probas rep 0 total-time-steps]
+  ;;extract travel probas
+  let snum 0
+  foreach real-arrivals [
+    let stat one-of stations with [id = item snum item 0 stations-characs] let time 0
+    foreach ? [
+      let travel-nums ?
+      if travel-nums > 0 [
+        ask io-vertices [let travel-time round ( cached-distance stat / mean-biker-speed) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]]
+      ]
+      set time time + 1
+    ]
+    set snum snum + 1 
+  ]
+  
+  
+  output-print "... getting kernel densities"
+  ;;get kernel densities
+  r:put "realArrivals" real-arrivals
+  r:put "realDepartures" real-departures
+  r:put "dataSpatialWidthStep" data-width-steps
+  r:put "xPoints" item 1 stations-characs
+  r:put "yPoints" item 2 stations-characs
+  r:put "sigma" kernel-size
+  r:put "tmax" length item 0 real-arrivals
+  r:eval (word "source(\"" project-root-path "Models/Statistics/NLKernel.R\",local=TRUE)") 
+  set destination-probas r:get "arrivals"
+  set origin-probas r:get "departures"
+end
+
+
+
+;;linear extrapolation of a list of lists
+;;insert (data-time-step/real-time-step - 1) data
+to-report extrapolate [time-serie]
+  let res []
+  foreach time-serie [
+    let d []
+    let current-data first ?
+    foreach but-first ? [
+      let next-data ? let alpha (next-data - current-data) * real-time-step / data-time-step let i 0
+      repeat ((data-time-step / real-time-step)) [
+         set d lput (current-data + (i * alpha)) d set i i + real-time-step
+      ]
+      set current-data next-data
+    ]
+    set res lput d res 
+  ]
+  report res
+end

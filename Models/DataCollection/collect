@@ -1,0 +1,6 @@
+#curl request to put data in file
+
+filename=/Users/Juste/testBikesData/data/`date "+%s"`.json 
+
+curl -G --data 'apiKey=`cat apiKey`&contract=Paris' https://api.jcdecaux.com/vls/v1/stations > $filename
+

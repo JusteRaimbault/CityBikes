@@ -1,0 +1,106 @@
+;;;;;;;;;;;;;;;;;;;
+;; GIS import function and network creation
+;;;;;;;;;;;;;;;;;;;
+
+;;specific functions due to the data structure?
+;;should use existing Network Utilities ?
+
+
+
+to setup-geography
+  ;;load data files
+  load-gis-data
+  
+  ;;abstract network
+  load-network
+  
+  ;;stations are part of geography
+  ;;NO, later because need a data setup first !!!
+  ;setup-stations
+  
+  ;;setup boundaries points
+  setup-boundaries
+  
+  ;;setup display
+  setup-display
+end
+
+to load-gis-data
+  output-print "Loading GIS data"
+  set stations-layer-data gis:load-dataset stations-layer-path
+  set paths-layer-data gis:load-dataset paths-layer-path
+  set boundaries-layer-data gis:load-dataset boundaries-layer-path
+  
+  ;;resize world - width is fixed (because of the interface), we set height according to proportions of envelope
+  ;;we must have patch-size * width = 800 for interface consistence
+  ;;number of patches fixed by spatial discretisation of width -> var width-patches
+  let width 800
+  set-patch-size 1
+  let envelope gis:envelope-union-of (gis:envelope-of stations-layer-data) (gis:envelope-of paths-layer-data)
+  let height (item 3 envelope - item 2 envelope) / (item 1 envelope - item 0 envelope) * width
+  resize-world 0 width 0 height
+  set real-patch-size real-world-width / world-width
+  
+  ;;adapt size of agents
+  set vertex-size patch-size / 2
+  set path-thickness patch-size / 5
+  
+  ;;adapts the gis world size to envelope of layers
+  gis:set-world-envelope envelope
+  
+end
+
+
+
+to load-network
+  output-print "Building network"
+  ;set cluster-treshold 0.1
+  ;create-network-vertices-clustering 
+  ;;beware of which function is called to create nw :
+  ;; depending on the "format" of the gis file, intersections may not exist in the initial file
+  ;; what obliges to call more complicated function than simple vertices clustering. 
+  create-network
+  
+  ;;need for a special conenxification of the network
+  ;;we assume there is one giant component and some very small: we keep only the giant
+  ;;will be simpler than trying a neighbors connexification
+  connexify-network
+  
+  display-network
+end
+
+
+to connexify-network
+  output-print "...connexification"
+  ;;approximative, should put a threshold on cluster size, but still, works
+  snapshot
+  let components nw:weak-component-clusters
+  let m max map length components
+  foreach components [if length ? < m [foreach ? [ask ? [ask my-paths [die] die]]]]
+end
+
+
+
+to setup-boundaries
+  output-print "Boundaries points"
+  let candidates []
+  ;;quite high complexity, beware of not havong too much boundaries features
+  foreach gis:feature-list-of boundaries-layer-data [
+     let inters paths with [gis:intersects? self ?]
+     ask inters[
+       set candidates lput one-of [both-ends] of self candidates 
+     ]
+  ]
+  set io-vertices n-of (min list length candidates io-number) to-agentset candidates
+end
+
+
+
+to setup-display
+  ;gis:set-drawing-color red
+  ;gis:draw stations-layer-data 2
+  ;gis:set-drawing-color brown
+  ;gis:draw paths-layer-data 1
+end
+
+

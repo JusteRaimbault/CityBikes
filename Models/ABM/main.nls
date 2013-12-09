@@ -1,0 +1,118 @@
+;;;;;;;;;;;;;;
+;; Main functions
+;;;;;;;;;;;;;;
+
+
+
+
+to go-for-one-day
+  
+  ;;partial setup
+  reset-ticks clear-plot
+  reset-reporters
+  
+  ;;go for the day
+  repeat total-time-steps [
+    go-for-one-time-step
+  ]
+  
+end
+
+
+
+to go-for-one-time-step
+  
+  ;;new travels
+  start-new-travels
+  
+  ;;move the bikers
+  move-bikers
+  
+  ;;set up bike or find other station
+  finish-travels
+    
+  display-step
+  
+  store-reporters
+   
+  tick
+  
+end
+
+
+
+to start-new-travels
+  ;;ticks gives the time !
+  ;;entering-travels
+  ask io-vertices [
+    let new-bikers-number random-binom item ticks io-probas (1 / count io-vertices)
+    if new-bikers-number > 0 [
+      ask patch-here [sprout-bikers new-bikers-number [ new-traveler true myself ]]  
+    ]
+  ]
+  
+  ;;departure : includes internal travels ? -> proportion as a parameter
+  let dep-number item ticks departures-numbers
+  if dep-number > 0 [
+    create-bikers dep-number [new-traveler false pick-origin]
+  ]
+  
+end
+
+
+to finish-travels
+  ask bikers with [current-travel = []][
+    ;;first check if was going out of the zone
+    ifelse out-travel? [
+      ;;just die?
+      die
+    ][
+      ;;check if station here -> if yes and still place of course, finish!
+      ifelse count stations in-radius 0.1 > 0 [
+        let possible-deposit-station one-of stations in-radius 0.1
+        ifelse [capacity - standing-bikes] of possible-deposit-station > 0 [
+          ;;drop the bike HERE ! and die
+          drop-bike possible-deposit-station
+          die
+        ][
+        ;;or reroute to another station
+        reroute-to-station
+        ]
+      ]
+      [
+        ;;look for station in tolerance-radius
+        ;;-> if info, free, if not random one !
+        reroute-to-station
+      ]
+    ]
+  ]
+end
+
+
+
+
+;;;;;;;;;;;;;;;
+;; Agents procedures
+;; common for all agents
+;;;;;;;;;;;;;;;
+
+to-report cached-distance [objective]
+  let o one-of cached-vertices with-min [distance myself]
+  let d one-of cached-vertices with-min [distance objective]
+  report get-symmetric-table cached-distances (list ([who] of o) ([who] of d))
+end
+
+to-report cached-path [objective]
+  let o one-of cached-vertices with-min [distance myself]
+  let d one-of cached-vertices with-min [distance objective]
+  let p get-symmetric-table cached-paths (list ([who] of o) ([who] of d))
+  if not member? o [both-ends] of first p [set p reverse p]
+  report p
+end
+
+
+;;station reporter (no station class)
+to-report load-factor
+  report standing-bikes / capacity
+end
+
