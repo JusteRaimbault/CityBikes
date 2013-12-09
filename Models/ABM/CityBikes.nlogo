@@ -124,6 +124,8 @@ globals [
   ;;to simplify path handling
   project-root-path
   
+  ;;progress in boundaries proba calc
+  bound-prog
   
   ;;;;;;;;;;;
   ;; Display vars
@@ -308,7 +310,7 @@ shortest-calc-prop
 shortest-calc-prop
 0
 100
-90
+9
 1
 1
 %
@@ -502,8 +504,8 @@ HORIZONTAL
 PLOT
 1089
 64
-1249
-184
+1358
+260
 travels
 NIL
 NIL
@@ -571,6 +573,17 @@ internal-travel-prop
 1
 %
 HORIZONTAL
+
+MONITOR
+157
+161
+207
+206
+bound
+bound-prog
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?

@@ -124,11 +124,12 @@ to calculate-r-data
     foreach ? [
       let travel-nums ?
       if travel-nums > 0 [
-        ask io-vertices [let travel-time round ( cached-distance stat / mean-biker-speed) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]]
+        ask io-vertices [let travel-time (time - 1) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]];round ( cached-distance stat / mean-biker-speed) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]]
       ]
       set time time + 1
     ]
     set snum snum + 1 
+    set bound-prog round (100 * snum / (count stations))
   ]
   
   
