@@ -8,8 +8,7 @@
 to go-for-one-day
   
   ;;partial setup
-  reset-ticks clear-plot
-  reset-reporters
+  clear
   
   ;;go for the day
   repeat total-time-steps [
@@ -52,10 +51,21 @@ to start-new-travels
   ]
   
   ;;departure : includes internal travels ? -> proportion as a parameter
+  ;; -> done in new traveler !
   let dep-number item ticks departures-numbers
   if dep-number > 0 [
-    create-bikers dep-number [new-traveler false pick-origin]
+    create-bikers dep-number [
+      let origin pick-origin
+      start-travel-within-zone origin
+    ]
   ]
+  
+  ;;departures from departure queue
+  foreach get-travelers-from-queue [
+    let origin last ?
+    ask first ? [set walking? false start-travel-within-zone origin]
+  ]
+  
   
 end
 
@@ -65,17 +75,19 @@ to finish-travels
     ;;first check if was going out of the zone
     ifelse out-travel? [
       ;;just die?
-      die
+      end-travel
     ][
       ;;check if station here -> if yes and still place of course, finish!
-      ifelse count stations in-radius 0.1 > 0 [
-        let possible-deposit-station one-of stations in-radius 0.1
+      ifelse count stations in-radius 5 > 0 [
+        let possible-deposit-station one-of stations in-radius 5
         ifelse [capacity - standing-bikes] of possible-deposit-station > 0 [
           ;;drop the bike HERE ! and die
           drop-bike possible-deposit-station
-          die
+          end-travel
         ][
         ;;or reroute to another station
+        set redirected? true
+        set visited-stations lput possible-deposit-station visited-stations
         reroute-to-station
         ]
       ]
@@ -113,6 +125,7 @@ end
 
 ;;station reporter (no station class)
 to-report load-factor
+  if capacity = 0 [report 0]
   report standing-bikes / capacity
 end
 

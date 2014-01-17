@@ -19,7 +19,7 @@
 
 to move-bikers
   ;;procedure for just move, rerouting or dying will be done separately
-  ask bikers[move-one-time-step]
+  ask bikers with [not walking?][move-one-time-step]
 end
 
 
@@ -29,7 +29,7 @@ to move-one-time-step
   ;set travel-time travel-time + 1
   set remaining-time-in-tick real-time-step
   
-  while [remaining-time-in-tick > 0] [
+  while [remaining-time-in-tick > 0 ] [
     move-in-current-edge
   ]
   
@@ -50,14 +50,15 @@ to move-in-current-edge
       set remaining-distance-in-edge remaining-distance-in-edge - possible-distance-in-edge
       
       ;;heading has to be set: ok dont forget to set it at the beginning of a travel (fur current, done at edge change)
-      fd possible-distance-in-edge
+      fd possible-distance-in-edge / real-patch-size
       
     ][
       ;; the other case go to end of edge
       ;; decrease remaining time by time to reach it
       ;; update current-edge
       
-      fd remaining-distance-in-edge
+      fd remaining-distance-in-edge / real-patch-size
+      set remaining-distance-in-edge 0
       set remaining-time-in-tick remaining-time-in-tick - (remaining-distance-in-edge / speed) 
       change-edge-or-finish-travel
       
@@ -68,7 +69,7 @@ end
 
 to change-edge-or-finish-travel
   ;;if travel is finished == current path is empty, do nothing
-  if current-travel != [][
+  ifelse current-travel != [][
     ;else change edge and continue travel
     
     ;;position correction -> needed ?
@@ -86,44 +87,78 @@ to change-edge-or-finish-travel
       ask n [set h towards other-end ]
     ]
     set heading h
+  ][
+    set remaining-time-in-tick 0
   ]
 end
 
 
+
+
+to start-travel-within-zone [origin]
+  ;;we need to take a bike in the nearest station
+    let dep-station one-of stations with-min [distance origin]
+    ;inspect self show user-yes-or-no? (word ([standing-bikes] of dep-station) dep-station)
+    ifelse ([standing-bikes] of dep-station) > 0 [
+      ask dep-station [set standing-bikes standing-bikes - 1]
+      if adverse? = 0 [set adverse? false]
+      new-traveler false origin
+    ][
+      ;;put the guy in departure queue
+      ;;info drawn here
+      set has-information? (random-float 100 < info-proportion)
+      let new-dep-station nobody
+      ifelse has-information? [set new-dep-station one-of (stations with [standing-bikes > 0]) with-min [distance myself]]
+      [set new-dep-station one-of stations in-radius (tolerance-radius / real-patch-size) with [self != dep-station]]
+      if new-dep-station = nobody [set new-dep-station one-of stations]
+      let t 0 let d 0 ask dep-station [set d distance new-dep-station set t max list 1 d / mean-walker-speed]
+      ;;no randomness more here, it's already a fucking gas factory
+      set hidden? true set-vars set walking? true set out-travel? true  set adverse? true
+      set travel-distance travel-distance + d
+      put-in-dep-queue ticks + t self new-dep-station
+    ]
+end
+
+
+
+
+
 ;;constructor for bikers, should be called by observer because vertices or stations can't hatch biker !
 to new-traveler [entering? origin]
+  
+  set total-travel-count total-travel-count + 1
+  set current-travel-count current-travel-count + 1
+  
+  ;;information -- has to be set first since destination can depend on it
+  ifelse random-float 100 < info-proportion [set has-information? true][set has-information? false]
+  
   let o nobody ask origin [set o one-of cached-vertices with-min [distance myself]]
   
   ;;pick a destination
   let d nobody
   ifelse entering?[
-    set d pick-destination
-    set out-travel? false
+    set d check-info-entering pick-destination  set adverse? false
   ][
     ;;internal travels can be possible !
     ifelse random-float 100 < internal-travel-prop [
-      set d pick-destination set out-travel? false
+      set d check-info-entering pick-destination 
     ][
       let io one-of io-vertices set d one-of cached-vertices with-min [distance io]
       set out-travel? true
+      set total-out-travel-count total-out-travel-count + 1
+      set current-out-travel-count current-out-travel-count + 1
     ]
   ]
   
   ;;bord effect ! ?
   if d = o [set d one-of cached-vertices with [self != o]]
   
-  ;;basics
-  set size 20 set shape "bike" set color 86
-        
-  ;;set characs
-  set speed mean-biker-speed
-  set tolerance-radius mean-tolerance-radius
-  
-  ;;information
-  ifelse random-float 100 < info-proportion [set has-information? true][set has-information? false]
+  set-vars
   
   ;;set travel
-  set current-travel get-symmetric-table cached-paths (list ([who] of o) ([who] of d))  
+  set current-travel get-symmetric-table cached-paths (list ([who] of o) ([who] of d)) 
+  set theoretical-travel-distance get-symmetric-table cached-distances (list ([who] of o) ([who] of d)) 
+  set travel-distance travel-distance + theoretical-travel-distance
   if not member? o [both-ends] of first current-travel [set current-travel reverse current-travel]
   
   set current-objective d
@@ -139,7 +174,14 @@ to enter-travel
   set current-edge first current-travel
   set current-travel but-first current-travel
   set remaining-distance-in-edge [link-length * real-patch-size] of current-edge
-  let h 0 ask current-edge [ask current-origin [set h towards other-end]] set heading h     
+  let h 0 let o current-origin ask current-edge [ask o [set h towards other-end]] set heading h     
+end
+
+to-report check-info-entering [d]
+  let res d
+  if has-information? [let s one-of stations with [(capacity - standing-bikes > 0)] with-min [distance d] set res one-of cached-vertices with-min [distance s]]
+  set out-travel? false
+  report res
 end
 
 
@@ -200,12 +242,14 @@ to reroute-to-station
     [let s first sort-on [distance myself] possibles set d one-of vertices with-min [distance s]]
   ][
     ;;no info: that's where tolerance radius appears
-    let s one-of stations in-radius tolerance-radius set d one-of vertices with-min [distance s]
+    let s one-of (stations in-radius (tolerance-radius / real-patch-size)) with [distance myself > 5 and not member? self [visited-stations] of myself] if s = nobody [set s one-of stations]
+    set d one-of vertices with-min [distance s]
   ]
-  let p []
-  ask o [set p nw:weighted-path-to d "path-length"]
+  let p [] let dis 0
+  ask o [set p nw:weighted-path-to d "path-length" set dis nw:weighted-distance-to d "path-length"]
   set current-travel p set current-origin o set current-objective d
-  enter-travel
+  set travel-distance travel-distance + dis
+  ifelse o = d [move-to one-of stations with-min [distance myself]][enter-travel]
 end
 
 
@@ -216,8 +260,25 @@ end
 
 
 
+to set-vars
+  ;;basics
+  set size 20 set shape "bike" set color 86
+  set redirected? false set walking? false
+  set visited-stations []
+  
+  ;;set characs
+  set speed mean-biker-speed
+  set tolerance-radius mean-tolerance-radius
+end
 
 
+to end-travel
+  if out-travel? [set current-out-travel-count current-out-travel-count - 1]
+  set current-travel-count current-travel-count - 1
+  set cum-trav-speed cum-trav-speed + (travel-distance / theoretical-travel-distance)
+  if adverse? [set adv-number adv-number + 1 set cum-det-trav-speed cum-det-trav-speed + (travel-distance / theoretical-travel-distance)]
+  die
+end
 
 
 

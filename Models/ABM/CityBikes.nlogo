@@ -19,6 +19,7 @@ __includes [
   
   "main.nls"
   "bikers.nls"
+  "depqueue.nls"
   
   ;;;;;;;;;;;;
   ;; Reporters
@@ -33,6 +34,12 @@ __includes [
   
   "display.nls"
   
+  ;;;;;;;;;;;;
+  ;; Exploration
+  ;;;;;;;;;;;;
+  
+  "exploration.nls"
+  "mapping.nls"
   
   ;;;;;;;;;;;;
   ;; Tests
@@ -52,6 +59,8 @@ __includes [
   "/Users/Juste/Documents/ComplexSystems/Softwares/NetLogo/utils/TableUtilities.nls" 
   "/Users/Juste/Documents/ComplexSystems/Softwares/NetLogo/utils/StringUtilities.nls" 
   "/Users/Juste/Documents/ComplexSystems/Softwares/NetLogo/utils/RandomUtilities.nls" 
+  "/Users/Juste/Documents/ComplexSystems/Softwares/NetLogo/utils/ExplorationUtilities.nls" 
+  "/Users/Juste/Documents/ComplexSystems/Softwares/NetLogo/utils/FileUtilities.nls" 
 ]
 
 globals [
@@ -87,6 +96,9 @@ globals [
   ;;agentset of io vertices
   io-vertices
   
+  ;;queue for walkers
+  departure-queue
+  
   ;;Network creation
   ;cluster-treshold
   remaining-links
@@ -101,7 +113,12 @@ globals [
   ;real size of one patch
   real-patch-size
   
+  ;;Speeds are in meters.min^-1
+  ;;biker speed
   mean-biker-speed
+  ;;walker speed : used to set time of next deprature of queue element,
+  ;;when a departure station is empty !
+  mean-walker-speed
   
   
   ;;;;;;;;;;
@@ -109,7 +126,15 @@ globals [
   ;;;;;;;;;;
   load-factors
   
+  total-travel-count
+  total-out-travel-count
+  current-travel-count
+  current-out-travel-count
   
+  adv-number
+  
+  cum-trav-speed
+  cum-det-trav-speed
   
   ;;Utils vars
   ;;table of paths
@@ -165,6 +190,15 @@ bikers-own [
   ;;does the travel go out of the zone ? (to kill him when finished)
   out-travel?
   
+  ;;has he changed his station
+  redirected?
+  
+  ;;walking
+  walking?
+  
+  ;;has the biker experienced an adverse event ?
+  adverse?
+  
   ;;current objective of the travel (intersection)
   current-objective
   ;;not necessary but for debug purposes
@@ -178,6 +212,13 @@ bikers-own [
   
   ;;remaining distance to go during one time step
   remaining-distance-in-edge
+  
+  ;;memory of station he tried, to avoid loops on loaclly coupled full stations
+  visited-stations
+  
+  ;;distances in travel
+  theoretical-travel-distance
+  travel-distance
   
 ]
 
@@ -223,6 +264,11 @@ undirected-link-breed [paths path]
 
 paths-own [
   path-length
+  
+  ;;var for mapping of flows
+  cumulated-flow
+  
+  
 ]
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -310,7 +356,7 @@ shortest-calc-prop
 shortest-calc-prop
 0
 100
-9
+50
 1
 1
 %
@@ -336,7 +382,7 @@ cluster-treshold
 cluster-treshold
 0
 10
-7
+4.7
 0.1
 1
 NIL
@@ -494,18 +540,18 @@ SLIDER
 real-world-width
 real-world-width
 0
+20000
 3000
-2140
 10
 1
 m
 HORIZONTAL
 
 PLOT
-1089
-64
-1358
-260
+1084
+49
+1403
+233
 travels
 NIL
 NIL
@@ -517,7 +563,8 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -8990512 true "" "plot count bikers"
+"default" 1.0 0 -1184463 true "" "plot current-travel-count"
+"pen-1" 1.0 0 -7500403 true "" "plot current-out-travel-count"
 
 SLIDER
 9
@@ -528,7 +575,7 @@ mean-tolerance-radius
 mean-tolerance-radius
 0
 1000
-100
+361
 1
 1
 m
@@ -543,7 +590,7 @@ info-proportion
 info-proportion
 0
 100
-50
+37
 1
 1
 %
@@ -584,6 +631,96 @@ bound-prog
 17
 1
 11
+
+PLOT
+1084
+243
+1244
+363
+Adverse events
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -5298144 true "" "plot length departure-queue + count bikers with [redirected?]"
+
+BUTTON
+147
+434
+247
+467
+NIL
+go-for-one-day
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+PLOT
+1248
+243
+1408
+363
+load factors
+NIL
+NIL
+0.0
+10.0
+0.0
+1.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -11053225 true "" "plot mean [load-factor] of stations"
+"pen-1" 1.0 0 -8053223 true "" "plot max [load-factor] of stations"
+"pen-2" 1.0 0 -15575016 true "" "plot min [load-factor] of stations"
+
+BUTTON
+195
+79
+258
+112
+NIL
+clear
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+PLOT
+1085
+366
+1245
+486
+heterogeneity
+NIL
+NIL
+0.0
+10.0
+0.0
+1.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot heterogeneity"
 
 @#$#@#$#@
 ## WHAT IS IT?

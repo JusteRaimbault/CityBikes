@@ -1,0 +1,35 @@
+;;;;
+;; particular function used for exploration
+;; (generic ones are in exploration utilities)
+;;;;
+
+
+to setup-exploration
+  setup-r-data
+  calculate-r-data false
+  clear
+end
+
+
+
+;;;;;;;;;;;;;
+
+to test-grid
+  grid-exploration-time-series 1 5 [["mean-tolerance-radius" 100 100 1]] ["mean-load-factor"] ["mse-lf-timeseries"] "../../Results/Grid/testgrid5step.csv"
+end
+
+to explore-grid
+  grid-exploration-time-series 3 5 [["mean-tolerance-radius" 300 900 300]["info-proportion" 0 100 50]["kernel-size" 20 80 30]] ["mean-load-factor" "heterogeneity"] ["adverse-event-proportion" "mean-travels-relative-speed" "mean-detoured-travels-relative-speed" "mse-lf-timeseries"] "../../Results/Grid/grid3rep.csv"
+end
+
+to statistical-sample
+  grid-exploration-time-series 50 5 [["mean-tolerance-radius" 300 700 400]] ["mean-load-factor" "heterogeneity"] ["adverse-event-proportion" "mean-travels-relative-speed" "mean-detoured-travels-relative-speed" "mse-lf-timeseries"] "../../Results/Grid/repets.csv"
+end
+
+to calibration
+  grid-exploration-time-series 4 5 [["mean-tolerance-radius" 300 600 300]["info-proportion" 0 100 20]["kernel-size" 20 100 20]] ["mean-load-factor" "heterogeneity"] ["adverse-event-proportion" "mean-travels-relative-speed" "mean-detoured-travels-relative-speed" "mse-lf-timeseries"] "../../Results/Grid/calib.csv"
+end
+
+to test-radius
+  grid-exploration-time-series 4 5 [["mean-tolerance-radius" 100 1000 100]["info-proportion" 20 90 70]] ["mean-load-factor" "heterogeneity"] ["adverse-event-proportion" "mean-travels-relative-speed" "mean-detoured-travels-relative-speed" "mse-lf-timeseries"] "../../Results/Grid/radius4rep10rad2inf.csv"
+end

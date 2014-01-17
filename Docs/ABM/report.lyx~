@@ -5,6 +5,7 @@
 \textclass article
 \begin_preamble
 \usepackage{multicol}
+\usepackage{graphicx}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -31,7 +32,7 @@
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -46,6 +47,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 3cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -64,8 +69,8 @@
 \begin_body
 
 \begin_layout Title
-User-based solutions for increasing level of service in sharing bikes transporta
-tion systems
+User-based solutions for increasing level of service in bike-sharing transportat
+ion systems
 \end_layout
 
 \begin_layout Author
@@ -131,10 +136,6 @@ LVMT, Ecole Nationale des Ponts et Chaussées
 \size larger
 Erasmus Mundus Masters in Complex Systems Science
 \size large
-
-\begin_inset space \hfill{}
-\end_inset
-
 
 \begin_inset space \hfill{}
 \end_inset
@@ -293,22 +294,1471 @@ begin{multicols}{2}
 Introduction
 \end_layout
 
+\begin_layout Standard
+Sharing bikes transportation systems, or also called 
+\begin_inset Quotes eld
+\end_inset
+
+smart bikes
+\begin_inset Quotes erd
+\end_inset
+
+, have been presented as an ecological and user-friendly transportation
+ mode, which appears to be well complementary to classic public transportation
+ systems (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "midgley2009role"
+
+\end_inset
+
+).
+ The quick propagation of many implementations of such systems across the
+ world can be seen as confirmation of the interesting potentialities that
+ bike can offer, as it is synthetised in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "demaio2009bike"
+
+\end_inset
+
+.
+ 
+\noun on
+O'Brien
+\noun default
+ & 
+\shape italic
+al
+\shape default
+.
+ propose in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+ a global vision on the current state of bike sharing across the world.
+\end_layout
+
+\begin_layout Standard
+Inspired by the relatively good success of such systems in Europe, the possible
+ key factors for their quality have been questionned and tranposed to different
+ possible countries of implementation such as China (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2012solving,geng2009bike"
+
+\end_inset
+
+) or the United States (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gifford2004will"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The understanding of how a system works is essential and can be done through
+ statistical analysis with elaborated statistical models (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009modelisation,borgnat2009spatial,borgnat2009studying,borgnat2011shared"
+
+\end_inset
+
+) or data-mining techniques (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining,kaltenbrunner2010urban"
+
+\end_inset
+
+), and can lead to the understanding of broader questions such as structure
+ of mobility patterns.
+\end_layout
+
+\begin_layout Standard
+Concerning the implementation, a crucial point in the design of the system
+ is an optimal location of stations.
+ That problem have been extensively studied from an Operationnal Research
+ point of view (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lin2011hub,lin2011strategic"
+
+\end_inset
+
+ for example).
+ The next step is a good exploitation of the system.
+ By nature, strong dissymetries appear in the distribution of bikes, translating
+ in a way urban mobility patterns.
+ That becomes in many cases problematic because leads to a string decrease
+ in the level of service (no parking places or no available bikes for example).
+ To counter such phenomena, operators have redistribution strategies, that
+ have also been studied a lot and for which opimal redistribution strategies
+ have been proposed (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kek2006relocation,nair2011fleet,nair2013large"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+However, all these studies always approach the problem from a top-down point
+ of view, and bottom-up strategies have been to our knowledge poorly considered
+ in the litterature.
+ User-based methods have been considered in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "barth1999simulation,barth2004trb"
+
+\end_inset
+
+ in the case of a car-sharing system, but the problem stays quite far from
+ a behavioral model of the agents using the system, since it explores the
+ possibility of implication of users in the redistribution process, or of
+ shared travels what is not relevant in the case of bikes.
+ Indeed the question of a precise determination of users behaviors and parameter
+s on the level of service of a bike-sharing systems remains open.
+\end_layout
+
+\begin_layout Standard
+Therefore we propose an agent-based model of simulation in order to represent
+ and simulate the system from a top-down approach, considering bikers and
+ parking as stations as agents and representing their interactions and evolution
+s in time.
+\end_layout
+
 \begin_layout Section
 Presentation of the model
+\end_layout
+
+\begin_layout Paragraph
+Introduction
+\end_layout
+
+\begin_layout Standard
+The granularity of the agent-based model is at the scale of the individual
+ biker and of the stations where bikes are parked.
+ A more integrated view such as flows would not be useful to our purpose
+ since we want to study the impact of the behavior of individuals on the
+ overall performance of the system.
+ The global working scheme consists in agents embedded in the street infrastruct
+ure, interacting with particular elements, what is inspired from the core
+ structure of the Miro model (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "banos2011simuler"
+
+\end_inset
+
+).
+ The scale of the space is globally one of a district; we don't consider
+ the whole system for calculation power purposes (around 1300 stations on
+ all the system of Paris, whereas an interesting district have around 100
+ stations), what should not be a problem as soon as in- and outflows are
+ well considered.
+ It is also a deliberate choice because we want to focus on some districts
+ where repartition problems are particularly important and not risking to
+ loose information about these critical cases by taking the system in its
+ whole.
+ Time scale of a run is logically one full day because of the cyclic nature
+ of the process (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vogel2011understanding"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Paragraph
+Formalisation
+\end_layout
+
+\begin_layout Standard
+The street network of the area is an euclidien network 
+\begin_inset Formula $(V\subset\mathbb{R}^{2},E\subset V\times V)$
+\end_inset
+
+ in a closed bounded part of 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+.
+ The time is discretised on a day, so all temporal evolution are defined
+ on 
+\begin_inset Formula $T=[0,24]\cap\tau\mathbb{N}$
+\end_inset
+
+ with 
+\begin_inset Formula $\tau$
+\end_inset
+
+ time step (in hours).
+ Stations 
+\begin_inset Formula $S$
+\end_inset
+
+ are particularly vertices of the network for which constant capacities
+ 
+\begin_inset Formula $c(s\in S)$
+\end_inset
+
+ are defined, and that can contain a variable number of bikes 
+\begin_inset Formula $p_{b}(s)\in\{0,\ldots,c\}^{T}$
+\end_inset
+
+.
+ We suppose that temporal fields 
+\begin_inset Formula $O(x,y,t)$
+\end_inset
+
+ and 
+\begin_inset Formula $D(x,y,t)$
+\end_inset
+
+ are defined, corresponding respectively to probabilities that a given point
+ at a given time becomes the expected departure (resp.
+ the expected arrival) of a new bike trip, knowing that the trip exists.
+ Boundaries conditions are represented as a set of random variables 
+\begin_inset Formula $(N_{I}(i,t))$
+\end_inset
+
+ that for each possible entry point 
+\begin_inset Formula $i\in I$
+\end_inset
+
+ (
+\begin_inset Formula $I\subset V$
+\end_inset
+
+ is a given set of boundaries points) and each time, 
+\begin_inset Formula $N_{I}(i,t)$
+\end_inset
+
+ gives the number of bikes trips entering the zone at point 
+\begin_inset Formula $i$
+\end_inset
+
+ and time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ For departures, a random time-serie 
+\begin_inset Formula $N_{D}(t)$
+\end_inset
+
+ represents the number of departures in the zone at time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ Note that these random variables and probabilities fields are sufficient
+ to built the complete process of travel initiating at each time step.
+ Parametrisation of the model will consist in proposing a consistent way
+ to construct them from real data.
+\end_layout
+
+\begin_layout Standard
+The stations are fixed agents, only their functions 
+\begin_inset Formula $p_{b}$
+\end_inset
+
+ will vary through time.
+ The other core agents are the bikers, for which the set 
+\begin_inset Formula $B(t)$
+\end_inset
+
+ is variable.
+ A biker 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $b\in B(t)$
+\end_inset
+
+ is represented by
+\end_layout
+
+\begin_layout Itemize
+its mean speed 
+\begin_inset Formula $\bar{v}(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+a distance 
+\begin_inset Formula $r(b)$
+\end_inset
+
+ corresponding to its 
+\begin_inset Quotes eld
+\end_inset
+
+propensity to walk
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is a key parameter that represents the distance he is ready to walk
+ between the station where we will take/leave his bike and his actual objective.
+\end_layout
+
+\begin_layout Itemize
+a boolean 
+\begin_inset Formula $i(b)$
+\end_inset
+
+ expressing the capacity of having access to information on the whole system
+ at any time (through a mobile device and the dedicated application for
+ example)
+\end_layout
+
+\begin_layout Standard
+We are then able to define the workflow of the model for one time step.
+ The following scheme is sequentially executed for each 
+\begin_inset Formula $t\in T$
+\end_inset
+
+, representing the evolution of the system on a day.
+\end_layout
+
+\begin_layout Standard
+For each time step the evolution of the system is done by:
+\end_layout
+
+\begin_layout Itemize
+Starting new travels.
+ For a travel within the area, if biker has information, he will adapt his
+ destination to the closest station of its destination with free parking
+ places, if not his destination is not changed.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For each entry point, draw number of new traveler, associate to each a destinati
+on according to 
+\begin_inset Formula $D$
+\end_inset
+
+ and characteristics (information drawn uniformally from proportion of informati
+on, speed according to fixed mean speed, radius also).
+\end_layout
+
+\begin_layout Itemize
+Draw new departures within the area according to 
+\begin_inset Formula $O$
+\end_inset
+
+, associate either destination within (in proportion to a fixed parameter
+ 
+\begin_inset Formula $p_{it}$
+\end_inset
+
+, proportion of internal travels) the area, or a boundary point (travel
+ out of the area).
+ If the departure station is empty, biker walks to an other station (with
+ bikes if has information, a random if not) and will start his travel after
+ a time determined by mean walking speed and distance of the station.
+\end_layout
+
+\begin_layout Itemize
+Make bikers waiting for start for which it is time begin their journey (correspo
+nd to walkers for which a departure station was empty at a given time step
+ before)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Making bikers for who travel is in progress advance of the distance correspondin
+g to their speed
+\end_layout
+
+\begin_layout Itemize
+Finishing travels or redirecting bikers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+if biker was doing an out travel and is on a boundary point, travel is finished
+ (get out of the area)
+\end_layout
+
+\begin_layout Itemize
+if has no information and is not on a station, go to a random station within
+ 
+\begin_inset Formula $r(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+if is on a station with free places, drop the bike
+\end_layout
+
+\begin_layout Itemize
+if is on a station with no places, choose as new destination either the
+ closest station with free places if he has information, or a random one
+ within 
+\begin_inset Formula $r(b)$
+\end_inset
+
+ (excluding already visited ones, implying the memory of agents).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Fig.
+ 1 shows the decision process for starting and arriving bikers.
+ Note that walking radius 
+\begin_inset Formula $r(b)$
+\end_inset
+
+ and information 
+\begin_inset Formula $i(b)$
+\end_inset
+
+ have implicitly great influence on the output of the model, since droping
+ station is totally determined (through a random process) by these two parameter
+s when the destination is given.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.5
+\backslash
+textwidth]{flowchart.pdf}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 1 | Decision process of bikers.
+\end_layout
+
+\begin_layout Paragraph
+Evaluation criteria
+\end_layout
+
+\begin_layout Standard
+In order to quantify the performance of the system, to compare different
+ realisations for different points in the parameter space or to evaluate
+ the fitness of a realisation towards real data, we need to define some
+ functions of evaluation, proxies of what are considered as 
+\begin_inset Quotes eld
+\end_inset
+
+qualities
+\begin_inset Quotes erd
+\end_inset
+
+ of the system.
+\end_layout
+
+\begin_layout Subparagraph
+Temporal evaluation functions
+\end_layout
+
+\begin_layout Standard
+These are criteria evaluated at each time step and for which the output
+ on the all shape of the time-series will be compared.
+\end_layout
+
+\begin_layout Itemize
+Mean load factor
+\begin_inset Formula 
+\[
+\bar{l}(t)=\frac{1}{\left|S\right|}\sum_{s\in S}\frac{p_{b}(s)}{c(s)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Heterogeneity of bike distribution: we aggregate spatial heterogeneity of
+ load factors on each station through a standard normalized heterogeneity
+ indicator, defined by
+\begin_inset Formula 
+\[
+h(t)=\frac{2}{\sum_{s\neq s'\in S}\frac{1}{d(s,s')}}\cdot\sum_{\begin{array}{c}
+s,s'\in S\\
+s\neq s'
+\end{array}}\frac{\left|\frac{p_{b}(s,t)}{c(s)}-\frac{p_{b}(s',t)}{c(s')}\right|}{d(s,s')}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph
+Aggregated evaluation functions
+\end_layout
+
+\begin_layout Standard
+These are criteria aggregated on a all day quantifying the level of service
+ integrated on all travels.
+ We note 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ the set of travels for a realisation of the system and 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ the set of travel for which an 
+\begin_inset Quotes eld
+\end_inset
+
+adverse event
+\begin_inset Quotes erd
+\end_inset
+
+ occured, i.
+ e.
+ for which a potential dropping station was full or a starting station was
+ empty.
+ For any travel 
+\begin_inset Formula $v\in\mathcal{T}$
+\end_inset
+
+, we denote by 
+\begin_inset Formula $d_{th}(v)$
+\end_inset
+
+ the theoretical distance (defined by the network distance between origin
+ and initial destination) and 
+\begin_inset Formula $d_{r}(v)$
+\end_inset
+
+ the effective realised distance.
+\end_layout
+
+\begin_layout Itemize
+Proportion of adverse events: proportion of users for which the quality
+ of service was doubtful.
+\begin_inset Formula 
+\[
+A=\frac{\left|\mathcal{A}\right|}{\left|\mathcal{T}\right|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Total quantity of detours: quantification of the deviation regarding an
+ ideal service
+\begin_inset Formula 
+\[
+D_{tot}=\frac{1}{\left|\mathcal{T}\right|}\cdot\sum_{v\in\mathcal{T}}\frac{d_{r}(v)}{d_{th}(v)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Detours for adverse travels: same as before but integrated only on adverse
+ events
+\begin_inset Formula 
+\[
+D_{A}=\frac{1}{\left|\mathcal{A}\right|}\cdot\sum_{v\in\mathcal{A}}\frac{d_{r}(v)}{d_{th}(v)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We also define a fitness function used for calibration of the model on real
+ data.
+ If we note 
+\begin_inset Formula $(lf(s,t))_{s\in S,t\in T}$
+\end_inset
+
+ the real time-series extracted for a standard day by a statistical analysis
+ on real data, we calibrate on the mean-square error on all time-series,
+ defined for a realisation of the model by
+\begin_inset Formula 
+\[
+MSE=\frac{1}{\left|S\right|\left|T\right|}\sum_{t\in T}\sum_{s\in S}(\frac{p_{b}(s,t)}{c(s)}-lf(s,t))^{2}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Results
 \end_layout
 
+\begin_layout Subsection
+Implementation and parametrisation
+\end_layout
+
+\begin_layout Paragraph
+Implementation
+\end_layout
+
+\begin_layout Standard
+The model was implemented in NetLogo (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "NetLogo"
+
+\end_inset
+
+) including GIS data through the GIS extension.
+ Preliminary treatment of GIS data was done with QGIS (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "QGIS_software"
+
+\end_inset
+
+).
+ Statistical pre-treatment of real temporal data was done in R (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "R"
+
+\end_inset
+
+), using the NL-R extension (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "thiele2012agent"
+
+\end_inset
+
+) to import directly the data.
+ See supplementary material S2 (source code) for more details on the implementat
+ion.
+\end_layout
+
+\begin_layout Standard
+Concerning the choice of the level of representation in the graphical interface,
+ we followed 
+\noun on
+Banos
+\noun default
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "banos2013HDR"
+
+\end_inset
+
+ when he argues that such exploratory models can really be exploited only
+ if a feedback through the interface is possible.
+ It is necessary to find a good compromise for the quantity of information
+ displayed in the graphical interface.
+ In our case, we represent a map of the district, on which link width is
+ proportional to current flows, stations display their load-factor by a
+ color code (color gradient from green, 
+\begin_inset Formula $lf(s)=0$
+\end_inset
+
+, to red, 
+\begin_inset Formula $lf(s)=1$
+\end_inset
+
+).
+ Bikes are also represented in real time, what is interesting thanks to
+ an option that allow to follow some individuals and visualize their decision
+ process through arrows representing original destination, provenance and
+ new destination (should be implemented in further work).
+ This feature could be seen as superficial at this state of the work but
+ it appears as essential regarding possible further developments of the
+ project (see discussion section).
+ Fig.
+ 2 shows an example of the graphical interface of the implementation of
+ the model of simulation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/running
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 2 | Graphical interface of the model for a particular district (Chatelet).
+\end_layout
+
+\begin_layout Paragraph
+Data collection
+\end_layout
+
+\begin_layout Standard
+All used data are open data, in order to have good reproducibility of the
+ work.
+ Road network vector layer was extracted from OpenStreetMap (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bennett2010openstreetmap"
+
+\end_inset
+
+).
+ Time-series of real stations statuts for Paris were collected automatically
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+from the dedicated website api.jcdecaux.com
+\end_layout
+
+\end_inset
+
+ all 5 minutes during 3 month (see supplementary material S1 for more details)
+ and were imported into R for treatment with 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "couture2013rjson"
+
+\end_inset
+
+ and the point dataset of stations was created from the geographical coordinates
+ with 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "keitt2011rgdal"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Parametrisation
+\end_layout
+
+\begin_layout Standard
+The model was designed in order to have real proxies for most of parameters.
+ Mean travel speed is taken as 14km.h
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jensen2010characterizing"
+
+\end_inset
+
+, where data of trips where studied for the bike system of the city of Lyon,
+ France.
+ To simplify, we take same speed for all bikers, a possible extension with
+ tiny gaussian distribution around the mean showed in experiments to bring
+ nothing more.
+ It has been shown in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+ that profiles of use of bike systems stays approximatively the same for
+ european cities (but can be significantly different for cities as Rio or
+ Taipei), what justify the use of these infered data in our case.
+ We also use the determined mean length of travel from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+ (here that parameter should be more sensible to the topology so we prefer
+ extract it from this second paper although it seems to have subsequent
+ methodological bias compared to the first rigourous work on the system
+ of Lyon), which is 2.3km, in order to determine the diameter of the area
+ on which our approach stays consistent.
+ Indeed the model is built in order to have emphasis on travels coming from
+ the outside and on travels going out, internal travels have to stay a small
+ proportion of all travels.
+ In our case, a district of diameter 2km gives a proportion of internal
+ travels of around 20%.
+ We will take districts of this size with this fixed proportion in the following.
+\end_layout
+
+\begin_layout Standard
+The delicate part of the parametrisation is the construction of 
+\begin_inset Formula $O,D$
+\end_inset
+
+ fields and random variables 
+\begin_inset Formula $N_{I},N_{D}$
+\end_inset
+
+ from the real data.
+ See supplementary material S1 for a precise mathematical description of
+ used procedures.
+ Daily data were reduced through sampling of time-series of load-factors
+ of all stations and dimension of the representation of a day was significantly
+ reduced through a 
+\begin_inset Formula $k$
+\end_inset
+
+-means clustering procedures (classically used in time-series clustering
+ as it is described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "warren2005clustering"
+
+\end_inset
+
+).
+ These reduced points were then clustered again in order to isolate typical
+ weekdays from week-ends, where the use profiles are tipically different
+ and from special days such as ones with very bad climate or public transportati
+on strikes.
+ That allowed to create the profile of a 
+\begin_inset Quotes eld
+\end_inset
+
+standard day
+\begin_inset Quotes erd
+\end_inset
+
+ that was used to infer 
+\begin_inset Formula $O,D$
+\end_inset
+
+ fields through a Gaussian multi-kernel estimation (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tsybakov2004introduction"
+
+\end_inset
+
+).
+ The characteristic size of kernels 
+\begin_inset Formula $1/\sigma$
+\end_inset
+
+ is an essential parameter for which we have no direct proxy, and that will
+ be fixed through a simplified calibration.
+ The laws for 
+\begin_inset Formula $N_{I},N_{D}$
+\end_inset
+
+ were taken as binomial: for an actual arrival, we consider each possible
+ travel and increase the number of drawing of each binomial law of entries
+ by 1 at the time corresponding to mean travel time (depending on the travel
+ distance) before arrival time.
+ Probabilities of binomial laws are 
+\begin_inset Formula $\nicefrac{1}{Card(I)}$
+\end_inset
+
+ since we assume independance of travels.
+ For departure, we just increase by one drawingsof the binomial law at current
+ time for an actual departure.
+\end_layout
+
+\begin_layout Standard
+What we call parameter space in the following consists in the 3 dimensional
+ space of parameters that have not been fixed by this parametrisation, i.
+ e.
+ the walking radius 
+\begin_inset Formula $r$
+\end_inset
+
+ (taken as constant on all bikers, as for the speed), the information proportion
+ 
+\begin_inset Formula $p_{it}$
+\end_inset
+
+ and the size of the Gaussian kernels 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ (note that the effective size is 
+\begin_inset Formula $1/\sigma$
+\end_inset
+
+ so the spread of distribution is decreasing with 
+\begin_inset Formula $\sigma$
+\end_inset
+
+, but we will denote the size that way for convenience in the following).
+\end_layout
+
+\begin_layout Subsection
+Robustness assessment, exploration and calibration
+\end_layout
+
+\begin_layout Paragraph
+Internal consistence of the model
+\end_layout
+
+\begin_layout Standard
+Before using simulations of the model to explore possibe strategies, we
+ need to assess that the results produced are internally consistent, i.
+ e.
+ that the randomness introduced in the parametrisation and in the internal
+ rules do not lead to divergences in results.
+ Simulations were launched on a large number of repetitions for different
+ points in the parameter space and statistical distribution of aggregated
+ outputs were plotted.
+ Fig.
+ 3 shows example of these results.
+ The relative good gaussian fits and the small deviation of distributions
+ confirm the internal consistence of the model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Robustness/hi
+stogram}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 3 | Statistical analysis of outputs.
+
+\series default
+ For some aggregated outputs (here the overall quantity of detours and the
+ proportion of adverse events), we plotted histograms of the statistical
+ distribution of the functions on many realisations of the model for a point
+ in the paremeter space.
+ Two points are plotted here.
+ The Gaussian fits are also drawn.
+ The relative good fit shows the internal consistence of the model and we
+ are able to quantify the typical number of repetitions needed when using
+ the model: because of the Central Limit Theorem, 100 repetitions are needed
+ to be within 
+\begin_inset Formula $\sigma/10$
+\end_inset
+
+ for example, but here the relative small values of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ (1/10 of indicator range) suggests quite less to have satisfying results.
+\end_layout
+
+\begin_layout Paragraph
+Robustness regarding the study area
+\end_layout
+
+\begin_layout Standard
+We also need to test the sensitivity of the model regarding geometry of
+ the area.
+ If the structure of the road network and the spatial distribution appear
+ to have a more significant influence on the output than the parametrisation
+ of the model, it would have no sense to evaluate and compare strategies
+ on parameters, since the obtained result would depend on the area on which
+ calculation is done.
+\end_layout
+
+\begin_layout Standard
+Therefore, we compare results obtained for temporal indicators and aggregated
+ ones, on different geometries with the same parametrisation (supposing
+ the same number of station), to results obtained on each geometries with
+ significantly different parametrisations (standard weekday and standard
+ weekend day).
+\end_layout
+
+\begin_layout Standard
+For the different experience we ran, for both aggregated indicators and
+ time-series, it appears clearly that the effect of geometry is relatively
+ neglectible regarding the role of parametrisation, what confirms the external
+ consistence of the model regarding the study area.
+\end_layout
+
+\begin_layout Paragraph
+Exploration of the parameter space
+\end_layout
+
+\begin_layout Standard
+A further step in the understanding of the behavior of the model, that can
+ be considered as superficial in the overall process, but that is in fact
+ implicitely crucial, is a grid exploration of the parameter space.
+ We plotted surfaces for aggregated indicators as functions of all possible
+ couples of parameters.
+ The important fact is that we did not observe chaotic events, and especially
+ for the mean-square-error surface, a quite continuous shape appeared, what
+ suggested the use of a reduced calibration procedure, simplifying significantly
+ the use of the model of simulation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Calib/calib3d
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 4 | Simplified calibration procedure.
+
+\series default
+ We plot the surface of the mean-square error on time-series of load-factors
+ as a function of the two parameters on which we want to calibrate.
+ For visibility purpose, only one surface was represented out of the different
+ obtained for different values of walking radius.
+ The absolute minimum obtained for very large kernel has no sense since
+ such value give quasi-uniform probabilities because of total recovering
+ of Gaussian kernels.
+ We take as best realisation the second minimum, which is located around
+ a kernel size of 50 and a quantity of information fo 30%, which seem to
+ be reasonable values afterwards.
+\end_layout
+
+\begin_layout Paragraph
+Reduced calibration procedure
+\end_layout
+
+\begin_layout Standard
+Using experiments launched during the grid-exploration of the parameter
+ space, we are able to assess or the regularity of some aggregated criteria,
+ especially of the mean-square error on loads factors of stations.
+ We calibrate on kernel size and quantity of information.
+ For different values of the walking radius, the obtained area for the location
+ of the minimum of the mean-square error stays quite the same for reasonnable
+ values of the radius (300-600m).
+ Fig.
+ 4 shows an example of the surface used for the simplified calibration.
+ We extract from that the values of around 50 for kernel size and 30 for
+ information proportion.
+ The most important is kernel size since we cannot have real proxy for that
+ parameter.
+ We use that values for the explorations of strategies in the following.
+\end_layout
+
+\begin_layout Subsection
+Investigation of user-based strategies
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Radius/hetero
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+(a)
+\series default
+ Time series of heterogeneity indicators for different values of walking
+ radius.
+ Although small perturbations in the mean appear that could lead to misconclude
+ to a positive effect of radius on heterogeneity.
+ However, the error bars of all curves recover themselves, what leads to
+ the non-significance of possible conclusion.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Radius/advers
+eRadius}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+(b)
+\series default
+ Influence of walking radius on the quantity of adverse events.
+ After 400m, we observe a decrease of the proportion.
+ We can neglect values under 300-400m since these are smaller than the mean
+ distance of a random point to a station, and would mean nothing, and conclude
+ to a small effect of walking radius on adverse events proportion, but staying
+ however quite prudent since the significance is quite weak.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 5 | Results on the influence of walking radius.
+
+\series default
+ 
+\end_layout
+
+\begin_layout Paragraph
+Influence of walking radius
+\end_layout
+
+\begin_layout Standard
+Taking for kernel-size and quantity of information roughly the values given
+ by the calibration, we can test the influence of walking radius on the
+ performance of the system.
+ Note that we make a strong assumption, that is that the calibration stay
+ valid for different values of the radius.
+ As we stand previously, this stays true as soon as we stay in a reasonnable
+ range of values (we obtained 300m to 600m) for the radius.
+ Results are shown in figure 5.
+\end_layout
+
+\begin_layout Standard
+Concerning the indicators evaluated on time-series, it is hard to have a
+ significant conclusion since the small difference that one can observe
+ between curves lies inside errors bars of all curves.
+ For the quantity of adverse events, we see a decreasing of the indicator
+ after a certain value (300m), what is significant if we consider that radius
+ under that value are not realistic, since a random place in the city should
+ be at least in mean over 300m from a bike station.
+\end_layout
+
+\begin_layout Standard
+However, the results concerning the radius are not so concluding, what could
+ be due to the presence of periodic negative feedbacks: when the mean distance
+ between two stations is reached, repartitions concerns neighbor stations
+ as expected, but the relation is not necessarly positive, depending on
+ the current status of the other station.
+ A deeper understanding and exploration of the behavior of the model regarding
+ radius should be the object of further work.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Influence of information
+\end_layout
+
+\begin_layout Standard
+For the quantity of information, we are on the contrary able to draw strong
+ conclusions.
+ Results from time-series are also not significant, but concerning aggregated
+ indicators, we have a constant and regular decrease for each and for different
+ values of the radius.
+ We are able to quantify a critical value of the information for which most
+ of the progress concerning adverse events is done, that is around 35%.
+ We observe for this value an amelioration of 4% in the quantity of adverse
+ events, that is interesting when rapported to the total number of bikers.
+ Results are shown in Fig.
+ 6.
+\end_layout
+
 \begin_layout Section
 Discussion
+\end_layout
+
+\begin_layout Paragraph
+Applicability of the results
+\end_layout
+
+\begin_layout Standard
+We have shown that increases of both walking radius and information quantity
+ could have positive consequences on the level of service of the system,
+ by reducing the overall number of adverse events and the quantity of detours
+ especially in the case of the information as variable.
+ However, we can question the possible applicability of the results.
+ Concerning walking radius, first a deeper investigation would be needed
+ for confirmation of the weak tendancy we observed, and secondly it appears
+ that in reality, it should be infeasible to play on that parameter.
+ The only way to approach that would be to inform users of the potential
+ increase in the level of service if they are ready to make a little effort,
+ but that is quite optimistic to think that they will apply systematically
+ the changes, either because they are egoistic, because they won't think
+ about it, or because they will have no time.
+\end_layout
+
+\begin_layout Standard
+Concerning the information proportion, we cannot also force users to have
+ information device (although a majority of population owns such a device,
+ they won't necessarly install the needed software, especially if that one
+ is not ergonomic).
+ We should proceed indirectly, for example by increasing the ergonomy of
+ the application.
+ Information integrated in stations already exists but is not practical
+ at all.
+ That could be also a good way to have an influence on that parameter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Info/adverse}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+(a)
+\series default
+ Influence of proportion of information on adverse events for two different
+ values of walking radius.
+ We can conclude significantly that the information has a positive influence.
+ Quantitavely, we extract the threshold of 35% that corresponds to the majority
+ of decrease, that means that more is not necessarly needed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Info/detours}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+(b)
+\series default
+ Influence of information on quantity of detours.
+ Here also, the influence is positive.
+ The effect is more significant for high values of walking radius.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size footnotesize
+Fig.
+ 6 | Results on the influence of proportion of information.
+
+\series default
+ 
+\end_layout
+
+\begin_layout Paragraph
+Other possible strategies
+\end_layout
+
+\begin_layout Standard
+We have explored so far the role of behavior of users of the system.
+ The object of further investigation could be the role of the 
+\begin_inset Quotes eld
+\end_inset
+
+behavior
+\begin_inset Quotes erd
+\end_inset
+
+ of stations.
+ For example, one could fix rules to them, as close all parkings over a
+ certain threshold of load-factor, or allow only departures or parkings
+ in given configurations, etc.
+ Such intelligent agents would surely bring new means to influence the overall
+ system, but will also increase the level of complexity (in the sense of
+ model complexity, see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "varenne2013modeliser"
+
+\end_inset
+
+), and therefore that extension should be considered very carefully (that
+ is the reason why we did not integrate it in this first work).
+\end_layout
+
+\begin_layout Paragraph
+Towards an online bottom up pilotage of the bikes sharing system
+\end_layout
+
+\begin_layout Standard
+Making the stations intelligent can imply making them communicate and behave
+ as a self adapting system.
+ If they give information to the user, heterogeneity in the nature and quantity
+ of information provided could have strong impact on the overall system.
+ That raises of course ethical issues since we are lead to ask if it is
+ fair to give different quantities of information to different users.
+ However, the exploration of such a self-adapting system, that would be
+ equivalent to a bottom-up piloted system since the operator would have
+ access to the parameters of the stations, could be strongly meaningful
+ for a theoretical and practical point of view, beyond this particular sharing-b
+ike problem.
+ One could think of online adaptative algorithms for ruling the local behavior
+ of the self-adapting system, such as ant algorithms (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "monmarche2004algorithmes"
+
+\end_inset
+
+), in which bikers would depose virtual pheromons when they visit a station
+ (corresponding to their information on travel that is easy to obtain).
+\end_layout
+
+\begin_layout Section*
+Conclusion
+\end_layout
+
+\begin_layout Section*
+Supplementary materials
+\end_layout
+
+\begin_layout Paragraph
+S1
+\end_layout
+
+\begin_layout Standard
+Report of statistical analysis of large set of data for VLib system, containing
+ detailed procedure and protocol of primary data collection and detailed
+ procedure of statistical treatment of the real time-series data, of used
+ statistical models for inference of 
+\begin_inset Formula $O,D$
+\end_inset
+
+ fields and 
+\begin_inset Formula $N_{I},N_{D}$
+\end_inset
+
+ random variables and of general interaction procedure between R and Netlogo.
+\end_layout
+
+\begin_layout Paragraph
+S2
+\end_layout
+
+\begin_layout Standard
+Global source code, including data collection scripts, statistical R code
+ and NetLogo agent-based modeling code.
 \end_layout
 
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "/Users/Juste/Documents/Cours/ComplexSystemsMadeSimple/project/Biblio/projetCSMS,/Users/Juste/Documents/ComplexSystems/Biblio/BibTeX/global,/Users/Juste/Documents/ComplexSystems/CCUPD/Biblio/ccupd"
+bibfiles "/Users/Juste/Documents/Cours/ComplexSystemsMadeSimple/project/Biblio/projetCSMS,/Users/Juste/Documents/ComplexSystems/Biblio/BibTeX/global,/Users/Juste/Documents/ComplexSystems/CCUPD/Biblio/ccupd,/Users/Juste/Documents/Cours/SecurityTransportSystems/Biblio/TransportationSystemSafety,/Users/Juste/Documents/ComplexSystems/CityBikes/Biblio/bibtex,/Users/Juste/Documents/ComplexSystems/Biblio/Culture/BibTex/culture"
 options "unsrt"
 
 \end_inset

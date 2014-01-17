@@ -1,0 +1,1565 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{bbm}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Statistical Analysis of a Bike Sharing Transportation System
+\end_layout
+
+\begin_layout Author
+
+\noun on
+Juste Raimbault
+\noun default
+
+\begin_inset Formula $^{1,2}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $^{1}$
+\end_inset
+
+Erasmus Mundus Master in Complex Systems Science, Ecole Polytechnique ParisTech
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $^{2}$
+\end_inset
+
+LVMT, Ecole Nationale des Ponts et Chaussées
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+\star &  & \star\\
+ & \star
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size large
+\begin_inset space \hfill{}
+\end_inset
+
+
+\size larger
+Erasmus Mundus Master in Complex Systems Science
+\size large
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size large
+\begin_inset space \hfill{}
+\end_inset
+
+
+\size larger
+Fall 2013 Project
+\size large
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size large
+\begin_inset space \hfill{}
+\end_inset
+
+
+\size larger
+Class
+\size large
+: 
+\shape italic
+Therapeutic Evaluation and Complex Systems
+\shape default
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+\star &  & \star\\
+ & \star
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Context
+\end_layout
+
+\begin_layout Standard
+Bike Sharing system have recently been the object of common but also scientific
+ interest.
+ The multiplication of implementation across many countries of the world,
+ following the example of European Cities, has shown his potential as a
+ new flexible and ecological transportation system (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "demaio2009bike"
+
+\end_inset
+
+).
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "midgley2009role"
+
+\end_inset
+
+ this new transportation mode is presented as being totally complementary
+ to the overall transportation part of an urban system.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It however raises particular issues in the conception and in the exploitation
+ of the system, because of the spatial and temporal heterogeneity in use
+ patterns.
+ Therefore a consequent number of studies have been lead in operationnal
+ research in order to optimise the initial design of the system (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lin2011hub,lin2011strategic"
+
+\end_inset
+
+ for example) or the bike redistribution process which is essential for
+ maintaining a good level of service (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2011fleet,kek2006relocation"
+
+\end_inset
+
+).
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The understanding of the mechanisms of such a system is essential for a
+ good management of it.
+ Therefore one can use statistical models, such as the work done on bike-sharing
+ system of Lyon, for which statistical cyclic models were used (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009studying,borgnat2009modelisation"
+
+\end_inset
+
+), including elaborated statistical estimators (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "michau2011peut"
+
+\end_inset
+
+) and spatial analysis were done (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009spatial,jensen2010characterizing"
+
+\end_inset
+
+).
+ An other approach is closer to datamining techniques, such as basic visualisati
+on of many systems (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+) or application of clustering datamining techniques (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vogel2011understanding,kaltenbrunner2010urban"
+
+\end_inset
+
+).
+ We will place ourselves between the two approaches in the following.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Presentation of the project
+\end_layout
+
+\begin_layout Standard
+Our aim is to apprehend both generally and specifically a large set of data
+ representing exhaustively the working of a bike sharing system during a
+ given time period, that is Paris' bike-sharing system during approximatively
+ 3 months.
+ That system, the largest in the world, has been studied in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+.
+ We want to extend this analysis with other methods inspired from ones used
+ on other systems.
+ A part of our work will be aimed at providing a statistical parametrisation
+ for an agent-based model that we won't detail here since that statistical
+ approach will have in itself self-consistence.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data collection
+\end_layout
+
+\begin_layout Paragraph
+Type of data
+\end_layout
+
+\begin_layout Standard
+Data for the statistical analysis are public available data (open data)
+ from the bike-sharing system of Paris (
+\begin_inset Quotes eld
+\end_inset
+
+V'Lib
+\begin_inset Quotes erd
+\end_inset
+
+), provided by the operating company in direct time on a dedicated website
+ (url 
+\family typewriter
+http://api.jcdecaux.com
+\family default
+, for which the format of request is precised on 
+\family typewriter
+developer.jcdecaux.com
+\family default
+).
+ It provides only the status of docking stations at the request time so
+ we had to automatize the data collection process on a large time period
+ in order to have significant time-series.
+ Process is detailed in the following.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We chose to proceed that way for the data collection first because the obtention
+ of more precise data from the company can raise several problems such as
+ confidentiality issues or more constraining for our research, lead to an
+ lack of independance in the design of the modeling process, since most
+ of the time delivering of data had its price that is at least answering
+ to some question asked by the company.
+ Secondly, we argue that our experience will be one way of testing the possibili
+ties and limits of open data: if the public provided data can lead to relatively
+ good results compared to what can be obtained with a larger set.
+ However, if our research process becomes quicky limitated by the lack of
+ precision or diversity in the data, that will bring one essential question
+ on front, that is that open data does not necessarly means freedom not
+ exhaustivity, and that the control of the provided data can implicitely
+ be highly dangerous for the global opening process.
+ On that point, we follow 
+\noun on
+Banos
+\noun default
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "banos2013HDR"
+
+\end_inset
+
+ when he argues that a necessary condition of an open scientific cumulative
+ process is a total transparency in the methods and an exhausting sharing
+ of implementations of models of simulation and of data.
+ Furthermore we wanted to avoid any risk of implicit reporting spin since
+ it stays a major issue today for the quality of research as it is claimed
+ by 
+\noun on
+Ravaud
+\noun default
+ & 
+\shape italic
+al
+\shape default
+.
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boutron2010reporting"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The purpose of data sharing by the company in our case was surely, because
+ of the nature of the available data, i.
+ e.
+ only current time stations status, nothing more than current time information
+ and mapping.
+ However, we will see that we can use them for statistical analysis and
+ obtain quite good results.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Data collection process
+\end_layout
+
+\begin_layout Standard
+A script requesting current data to the API and saving it into a file have
+ been written and scheduled each 5 minutes on a remote server (we did not
+ choose finer temporal granularity for a material reason, because the size
+ of data becomes quickly huge and storage becomes then an issue).
+ Data on remote server is then zipped everyday for storage purpose.
+ When needed we download the files and process them with R using 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "couture2013rjson"
+
+\end_inset
+
+ in order to store them locally on a reduced form (csv) that can be called
+ directly by our data processing algorithms.
+ Note that it would have been more logical to process the data remotely
+ and store them under the reduced form but technical reasons were an obstacle
+ (in particular the installation of R on the remote machine).
+ We also extracted from extensive files static information such as numerotation
+ and coordinates of docking stations, what have been useful after for example
+ to create a geographical file for map drawing with 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "keitt2011rgdal"
+
+\end_inset
+
+.
+ Fig.
+ 1 shows a flowchart of the data collection and primary processing process.
+ We collected data for all Paris during around 3 month, following statistical
+ analysis are done on these data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename data.pdf
+	lyxscale 20
+	scale 45
+	BoundingBox 0bp 100bp 720bp 540bp
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flowchart of data collection process
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Statistical analysis
+\end_layout
+
+\begin_layout Subsection
+Data visualisation
+\end_layout
+
+\begin_layout Standard
+Many basic means for a global visualisation of data behavior are available
+ such as the ones proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+, so we won't go too much into detailed representation since it is not the
+ first puspose of our study.
+ Note that this step is however essential, especially during the elaboration
+ of algorithm and the choice of methods for statistical treatment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To have an idea of the cyclic character of daily mobility patterns, we can
+ plot the total number of available bikes at docking stations against time.
+ If we suppose the total number of bikes constant over the time duration
+ of the plot, what seems reasonnable even on the all time period our data
+ cover (even if there are surely variations because for example of bike
+ reparations, they are surely neglectible regarding the total number of
+ bikes, which is around 15000), this plot is exactly the complementary of
+ the quantity of current travel as a function of time, what allows to visualize
+ mobility tendancies.
+ Fig.
+ 2 shows the obtained curve that fits the expected results, showing in particula
+r the distinction between week days and weekends.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Visu/availableBikes.pdf
+	lyxscale 30
+	scale 45
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Quantity of total available bikes over a week.
+ We observe the typical patterns of the daily mobility, with two minima
+ corresponding to morning and evening affluence.
+ The two day in the middle correspond to saturday and sunday since the serie
+ begins on a wednesday.
+ These weekend days present only one minimum, what is logical (no affluence
+ in the morning) and confirms the results of other studies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can also for example draw maps for the understanding of spatial patterns
+ in system use.
+ One can expect for example to see distinction in time between residential
+ and activity areas for the quantity of available bikes in stations.
+ This allows to visualise global and local heterogeneity patterns.
+ Fig.
+ 3 shows an example of such maps on a particular district.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfmidnight.png
+	lyxscale 20
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Midnight
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfMidday.png
+	lyxscale 20
+	scale 30
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Midday
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Examples of heatmaps at two different moments of the day for the district
+ of Chatelet.
+ The color indicates, from green that corresponds to an empty station, to
+ red to a full one, number of available bikes.
+ Since it is a working district and not residential, stations in the center
+ are overloaded during the day but empty during the night as expected.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Extraction of patterns
+\end_layout
+
+\begin_layout Standard
+A first step in the treatment of data is to extract typical patterns in
+ use of the system.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vogel2011understanding"
+
+\end_inset
+
+, datamining techniques, and especially clustering of activity profiles,
+ are used to extract typical patterns in station use.
+ We propose to use similar methodology in order to identify typical overall
+ day profiles and classify them.
+ We expect to be able to differentiate weekdays from week-ends for example,
+ but also see the influence of climate on use patterns.
+ The clustering of time-series offer an alternative for a predictive model,
+ as the cyclic model proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009modelisation,borgnat2009studying"
+
+\end_inset
+
+.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A day is exhaustively represented by the time-series, defined on all the
+ stations of the system 
+\begin_inset Formula $s\in S$
+\end_inset
+
+, and on a discrete time sample 
+\begin_inset Formula $T=\{0,\tau,...,N\tau\}$
+\end_inset
+
+ (with 
+\begin_inset Formula $\tau$
+\end_inset
+
+ time step of the data, 5min in our case), 
+\begin_inset Formula $(b(s,t))_{s\in S,t\in T}$
+\end_inset
+
+ of availables bikes at each stations.
+ Each station has a maximal capacity 
+\begin_inset Formula $c(s)$
+\end_inset
+
+ that allow to define the number of free parking places 
+\begin_inset Formula $p(s)=c(s)-b(s)$
+\end_inset
+
+ and the load factor wich can be more convenient to work with since it is
+ normalised 
+\begin_inset Formula $lf(s)=\frac{b(s)}{c(s)}$
+\end_inset
+
+.
+ The overall clustering process first aims to reduce the dimension of the
+ representation of a day without loosing majority of information, and then
+ to be able then to classify days and make predictions on the day characteristic
+s from its data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+First the dimension is reduced through a sampling process that can be seen
+ as a projection from the space of complete time-series to a space of smaller
+ dimension.
+ If 
+\begin_inset Formula $\varphi\in\mathbb{N}^{\mathbb{N}}$
+\end_inset
+
+ is a extraction then the sampling is defined as the canonic projection
+ 
+\begin_inset Formula $\mathcal{S}:\mathbb{R}^{\left|T\right|\left|S\right|}\rightarrow\mathbb{R}^{\left|\varphi(T)\right|\left|S\right|}$
+\end_inset
+
+.
+ The question of the value of the time step for sampling is important.
+ We tried for many values and looked at the possible loss of information
+ through the evolution of clustering coefficient regarding number of clusters.
+ It appeared that we had still good precision for large time steps such
+ as one hour.
+ See fig.
+ 4 for more precision on the influence of sampling step.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/clusterNumber.pdf
+	lyxscale 60
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Clustering coefficient as a function of cluster number for different values
+ of sampling step.
+ The more blue the curve is, the more sampling step is large.
+ If the curve goes quickier to 1, that means that points are less distinct
+ and that statistical distribution contains less information.
+ We observe a jump that is quantified in (b).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/infoLoss.pdf
+	lyxscale 40
+	scale 35
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Plot of the value of the clustering coefficient for k=2 (red) and k=3 (green),
+ as a function of sampling step.
+ We see the significative loss of information around a step of 400 minutes,
+ which should correspond to the disapearance of pics in the curve, since
+ they contribute significantly to the quantity of information.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Influence of sampling interval on quantity of conserved information in the
+ clustering process.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We proceed then for each day to a k-means algorithm on the sampled time-series
+ (as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "warren2005clustering"
+
+\end_inset
+
+), in order to reduce more the dimension needed to represent a day.
+ Intuitively, that corresponds to a classification of stations according
+ to their 
+\begin_inset Quotes eld
+\end_inset
+
+profile
+\begin_inset Quotes erd
+\end_inset
+
+.
+ We take in practice 20 clusters, what allows to divide by 100 the dimension.
+ The final step is to cluster the representations of the days for establishing
+ a classification of days.
+ With two clusters, one expect to isolate weekdays from weekends, although
+ kmeans can lead to bad results if cardinal of clusters appear to be imbalanced.
+ In our case it worked quite well and we were able to reproduce that distinction.
+ However, a finer distinction (e.
+ g.
+ between rainy and shiny days) was not possible and some work on a more
+ specialized clustering algorithm (kmeans is very general) would be needed
+ to obtain more precise results.
+ Fig.
+ 5 shows the comparison between real curves of available bikes and predicted
+ curves by the clustering algorithm.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.pdf
+	lyxscale 60
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Curves of available bikes for all day of the week.
+ Week days are superposed and correspond to the curves with two pics.
+ the green and the blue curve are respectively saturday and sunday.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves.pdf
+	lyxscale 40
+	scale 25
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Theoretical predicted curves for two clusters.
+ As expected, we distinguish week days (red curve) from weekend (blue curve),
+ according to the real curves.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results of clustering process for classification of days: distinction between
+ weekends and week days.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Inference of origin/destination fields
+\end_layout
+
+\begin_layout Standard
+An other crucial point of the analysis is the estimation of real origin
+ and destinations of users of the system.
+ If the original purpose is in our case to obtain a parametrisation for
+ an agent-based model as we already explained, this problem has its own
+ internal value.
+ Indeed a lot of research in economic geography and transportation geography
+ aims at evaluating real Origin/Destination fields in order to integrate
+ them into transportation/landuse models (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "leurent2006modelisation"
+
+\end_inset
+
+ for example).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our statistical model for the inference of field is a non-parametric estimation
+ with Gaussian kernels (described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tsybakov2004introduction"
+
+\end_inset
+
+).
+ Considering the real departures and arrivals in bike stations (that are
+ easily calculated by discrete differentiation of data), we count each as
+ a contribution to the global field at the current time step, smoothed with
+ Gaussian kernel (that appeared to be enough in practice).
+ At time 
+\begin_inset Formula $t$
+\end_inset
+
+ ,with a parameter 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ fixing kernel sizes (each kernel has the same size, further work could
+ be done to test the influence of multiple sizes, weighted by the maximum
+ of the kernel distribution for example) and a set of effective arrivals
+ 
+\begin_inset Formula $(d_{i}(t))$
+\end_inset
+
+ at the corresponding coordinates 
+\begin_inset Formula $(\vec{x}_{i}(t))$
+\end_inset
+
+, the spatial field of destinations is estimated as, with 
+\begin_inset Formula $K$
+\end_inset
+
+ normalisation factor,
+\begin_inset Formula 
+\[
+[D(t)](\vec{x})=\frac{1}{K}\sum_{i}d_{i}(t)\cdot exp(\frac{\left\Vert \vec{x}-\vec{x}_{i}\right\Vert }{2\sigma^{2}})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We do the same for the origin field.
+ Kernel estimations are done with the ergonomic package 
+\family typewriter
+kernlab
+\family default
+ (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "karatzoglou2004kernlab"
+
+\end_inset
+
+).
+ These extrapolated fields are then discretised and used as parametrisation
+ for the agent-based models.
+ We also use them to extrapolate bicycle flows on a day.
+ Fig.
+ 6 shows an example of an obtained field.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pdf
+	lyxscale 20
+	scale 40
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Destination field obtained through Gaussian kernel estimation on a square
+ area.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Mapping of bicycle flows
+\end_layout
+
+\begin_layout Standard
+One interesting application of the preceeding point is the extrapolation
+ and mapping of flows on a day.
+ Especially, it allows to see if data we have are enough to understand the
+ mechanisms of the system, i.
+ e.
+ infer reasonnably well possible travels, or if more would be needed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given mean time-series on a 
+\begin_inset Quotes eld
+\end_inset
+
+standard day
+\begin_inset Quotes erd
+\end_inset
+
+ (extracted through clustering and mean of the larger cluster), we extract
+ on all the city the time-serie of effective departures and we calculate
+ the origin field.
+ Then for each step of time, we draw randomly the expected number of trips
+ by the following process for each trip:
+\end_layout
+
+\begin_layout Itemize
+Origin 
+\begin_inset Formula $\vec{o}$
+\end_inset
+
+ is drawn from the origin probability field
+\end_layout
+
+\begin_layout Itemize
+Trip distance 
+\begin_inset Formula $r$
+\end_inset
+
+ is drawn following a Gaussian law of mean 2km and standard deviation 800m
+ according to the distribution of travel distances proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We define the conditional destination field by 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$D_{r}(t)=K
+\backslash
+cdot D(t)
+\backslash
+cdot
+\backslash
+mathbbm{1}_{
+\backslash
+left
+\backslash
+Vert 
+\backslash
+vec{o}-
+\backslash
+vec{x}
+\backslash
+right
+\backslash
+Vert = r 
+\backslash
+pm 
+\backslash
+varepsilon}$
+\end_layout
+
+\end_inset
+
+, where 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ is a tolerance parameter and 
+\begin_inset Formula $K$
+\end_inset
+
+ a normalisation factor and draw a random destination according to this
+ field.
+\end_layout
+
+\begin_layout Itemize
+Following the shortest path between origin and destination in the network,
+ we increase by one the cumulated flow for each link.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That gives the map of the cumulated flows on a all day.
+ Implementation of GIS calculation and network paths was done in NetLogo
+ (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "NetLogo"
+
+\end_inset
+
+) in the frame of the agent-based modeling.
+ Fig.
+ 7 shows the obtained map.
+ We observe expected patterns in the center but irregularities for some
+ links, especially in south-east.
+ However, we claim having a good interpolation of the internal mechanisms
+ of the system from only partial data, answering partially to the question
+ raised in 2.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlows.png
+	lyxscale 30
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Map of extrapolated cumulated flows on a day for Paris.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Conclusion
+\end_layout
+
+\begin_layout Standard
+We were able to proceed to statistical analysis of large data for a better
+ understanding of the working of a bike-sharing system.
+ Although reults were sometimes quite limited, we showed that it was possible
+ to create knowledge from Open Data that were not aimed at that, what is
+ quite significant from an epistemological point of view.
+ We argue that it is a proof of the need of such data opening process, in
+ all fields, but also in a more extended way.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Further development of that project could be a stronger assessment and explorati
+on of used methods, and also the insertion of methods from other fields
+ such as statistical medicine: considering redistribution events as 
+\begin_inset Quotes eld
+\end_inset
+
+treatment
+\begin_inset Quotes erd
+\end_inset
+
+ on stations, and evaluating adverse events as load-factor over a threshold
+ for example, it would be able to consider a district as a trial (treatment
+ group: ay with redistribution, control group without) and proceed to a
+ meta-analysis on all district, in order to quantify the effect of redistributio
+n on the system.
+ Such transposition may however remain discutable and need to be considered
+ deeper.
+\end_layout
+
+\begin_layout Section*
+Supplementary Material
+\end_layout
+
+\begin_layout Standard
+Source code of all statistical processing in R, data collection script,
+ and agent-based model in NetLogo (for the mapping part) in attached zipfile.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/Juste/Documents/ComplexSystems/CityBikes/Biblio/bibtex,/Users/Juste/Documents/ComplexSystems/Biblio/BibTeX/global"
+options "unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

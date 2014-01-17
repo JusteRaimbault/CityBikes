@@ -70,7 +70,47 @@ provisoryTypicalWeekDay <- function(numdays){
 }
 
 
+dayClustering <- function(numdays,sampling,dayclusternumber,finalclusternumber){
+  i=0
+  tstep = 24 * floor(60 / sampling)
+  days = matrix(data=rep(0,numdays*tstep*dayclusternumber),nrow=numdays,ncol=tstep*dayclusternumber)
+  for(file in sort(dir("data"))){
+    print(paste("day",i))
+    if(i<numdays){
+        km = kmeans(t(sample(normalize(as.matrix(read.table(paste("data/",file,sep="")))),sampling)),dayclusternumber,iter.max=100)
+        k=1
+        for(c in km$centers){
+          days[i,k]=c
+          k=k+1
+        }
+    }
+    i = i + 1
+  }
+  dayclustering = kmeans(days,finalclusternumber,iter.max=100)
+  return(dayclustering$cluster)
+}
 
+drawClusteringCurves <- function(numdays){
+  clusters <- dayClustering(numdays,5,50,2)
+  
+  i=0
+  availableBikes1 = c();availableBikes2 = c();s1=0;s2=0
+  for(file in sort(dir("data"))){
+    if(i<numdays){
+      dat = as.matrix(read.table(paste("data/",file,sep="")))
+      av = c();
+      for(l in 1:length(dat[,1])){
+        av= append(av,sum(dat[l,]))
+      }   
+      if(length(availableBikes1)==0){availableBikes1=rep(0,length(av));availableBikes2=rep(0,length(av))}
+      if(clusters[i+1]==1){availableBikes1=availableBikes1+av;s1=s1+1}
+      else{availableBikes2=availableBikes2+av;s2=s2+1}
+    }
+    i = i + 1
+  }
+  plot(1:length(availableBikes1),availableBikes1/s1,type="l",col="red",ylim=c(10500,15000),xlab="time",ylab="Available bikes")
+  points(1:length(availableBikes2),availableBikes2/s2,type="l",col="blue")
+}
 
 
 

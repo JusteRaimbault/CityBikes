@@ -1,0 +1,1252 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usetheme{Warsaw}
+%\usetheme{Boadilla}
+% or ...
+
+\usecolortheme{orchid}
+\setbeamertemplate{footline}[text line]{} % makes the footer EMPTY
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+
+\usepackage{bbm}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 2
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+User-based solutions for increasing level of service in bike-sharing transportat
+ion systems
+\end_layout
+
+\begin_layout Author
+J.
+\begin_inset space ~
+\end_inset
+
+Raimbault
+\begin_inset Formula $^{1,2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Institute
+\begin_inset Formula $^{1}$
+\end_inset
+
+Erasmus Mundus Master in Complex Systems Science, Ecole Polytechnique
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $^{2}$
+\end_inset
+
+LVMT, Ecole Nationale des Ponts et Chaussées
+\end_layout
+
+\begin_layout Date
+EM Master in CSS
+\shape italic
+, Open Problems
+\begin_inset Newline newline
+\end_inset
+
+Supervisor: Khashayar Pakdaman,
+\shape default
+ Institut Jacques Monod, CNRS UMR 7592, Paris
+\shape italic
+
+\begin_inset Newline newline
+\end_inset
+
+Co-instructor: Arnaud Banos, ISCPIF/Géographie-Cités
+\shape default
+
+\begin_inset Newline newline
+\end_inset
+
+Project Final Presentation
+\begin_inset Newline newline
+\end_inset
+
+December 17, 2013
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+AtBeginSection[]{
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+frame<beamer>{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+frametitle{Outline}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+tableofcontents[currentsection] 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Outline
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Situation of sharing-bike systems
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Quick development across the world since 2000, starting from Europe (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "demaio2009bike"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Around 200 systems in the world.
+ Ecological and compatible (
+\begin_inset Quotes eld
+\end_inset
+
+sustainable
+\begin_inset Quotes erd
+\end_inset
+
+) transport mode (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Extensions to unexpected places ? USA (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gifford2004will"
+
+\end_inset
+
+) where car is dominant, or China (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2012solving"
+
+\end_inset
+
+) where relation to bikes has strongly changed these last years.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+But...
+ intrinsic issues in the system
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Data/images/velib-station-vide.jpg
+	lyxscale 10
+	scale 29
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Data/images/velibpleine.jpg
+	lyxscale 20
+	scale 39
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Full or empty docking stations in Paris: decrease in the level of service
+ (source www.velib.paris.fr)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Solutions ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Better initial design of the system ? (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lin2011hub,lin2011strategic"
+
+\end_inset
+
+).
+ But at least as complex as transportation predictive models.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Optimal management by the operator ? Operational Research give answers for
+ optimal redistribution (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2011fleet,nair2013large"
+
+\end_inset
+
+) but that usually does not solve totally the issues.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Poor litterature on user-based models (e.
+ g.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "barth2004trb"
+
+\end_inset
+
+, but for car-sharing system, for which problems are different).
+ We want to explore through agent-based modeling impact of some user parameters
+ on an overall system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Model description
+\end_layout
+
+\begin_layout BeginFrame
+Settings and agents
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Agents: bikers with information 
+\begin_inset Formula $i(b)$
+\end_inset
+
+ (boolean), tolerated walking radius 
+\begin_inset Formula $r(b)$
+\end_inset
+
+ and mean speed 
+\begin_inset Formula $\bar{v}(b)$
+\end_inset
+
+; docking stations located in space with current standing bikes 
+\begin_inset Formula $p_{b}(s,t)$
+\end_inset
+
+ and capacity 
+\begin_inset Formula $c(s)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Euclidian network 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $N=(V,E)$
+\end_inset
+
+, representing the road network.
+ Stations are nodes of the network and movement of bikers is embedded in
+ the trace of 
+\begin_inset Formula $N$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Scale of the district; we suppose known temporal fields of origin 
+\begin_inset Formula $O(t)$
+\end_inset
+
+ and destination 
+\begin_inset Formula $D(t)$
+\end_inset
+
+ (probabilities of O/D given a trip), boundaries conditions 
+\begin_inset Formula $N(t)$
+\end_inset
+
+ as flows (in- and outflows) at fixed boundaries points
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Temporal Evolution
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At each time step:
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Start new travels randomly using 
+\begin_inset Formula $O,D,N$
+\end_inset
+
+ 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Make bikers in travel advance of the corresponding distance 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Finish travels and redirect bikers when needed (see flowchart of bikers
+ behavior)
+\end_layout
+
+\begin_layout BeginFrame
+Bikers behavior
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename flowchart.pdf
+	lyxscale 10
+	scale 40
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Evaluation criteria of the level of service
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+\size larger
+Temporal indicators
+\end_layout
+
+\begin_layout Itemize
+Mean load factor 
+\begin_inset Formula $\bar{l}(t)=\frac{1}{\left|S\right|}\sum_{s\in S}\frac{p_{b}(s)}{c(s)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Heterogeneity of bike distribution (classical spatial heterogeneity index)
+\begin_inset Formula 
+\[
+h(t)=\frac{2}{\sum_{s\neq s'\in S}\frac{1}{d(s,s')}}\cdot\sum_{\begin{array}{c}
+s,s'\in S\\
+s\neq s'
+\end{array}}\frac{\left|\frac{p_{b}(s,t)}{c(s)}-\frac{p_{b}(s',t)}{c(s')}\right|}{d(s,s')}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Evaluation criteria of the level of service
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+\size larger
+Aggregated indicators
+\end_layout
+
+\begin_layout Standard
+With 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ set of travels for a realisation of the system on a day, 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ travels for which an adverse event (full or empty station) occured and
+ 
+\begin_inset Formula $d_{th}(v)$
+\end_inset
+
+ (
+\begin_inset Formula $d_{r}(v)$
+\end_inset
+
+ ) theoretical distance (resp.
+ realised) for a travel 
+\begin_inset Formula $v$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+Proportion of adverse events 
+\begin_inset Formula $A=\frac{\left|\mathcal{A}\right|}{\left|\mathcal{T}\right|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Total quantity of detours
+\begin_inset Formula 
+\[
+D_{tot}=\frac{1}{\left|\mathcal{T}\right|}\cdot\sum_{v\in\mathcal{T}}\frac{d_{r}(v)}{d_{th}(v)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Implementation
+\end_layout
+
+\begin_layout BeginFrame
+Parametrisation
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Statistical treatment of real data on 3 month for Paris (time-series clustering
+ methods) to obtain a 
+\begin_inset Quotes eld
+\end_inset
+
+standard day
+\begin_inset Quotes erd
+\end_inset
+
+; inference of 
+\begin_inset Formula $O,D$
+\end_inset
+
+ for the area using non-parametric multi-kernel Gaussian estimation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Parameters such as travel distance distribution, mean speed where taken
+ from the litterature (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+ ,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+ )
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Calibration
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Three remaining parameters: quantity of information, walking tolerance radius
+ and Gaussian kernel size
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Simplified calibration procedure (rough reasonable minimum of the objective)
+ on the mean-square error on load-factors time-series:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+MSE=\frac{1}{\left|S\right|\left|T\right|}\sum_{t\in T}\sum_{s\in S}(\frac{p_{b}(s,t)}{c(s)}-lf(s,t))^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Calibration
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Calib/calib3d.pdf
+	lyxscale 10
+	scale 40
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout BeginFrame
+Demonstration
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+\size large
+Demonstration of the implementation of the model of simulation in NetLogo
+\shape default
+\size default
+ 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Results: internal robustness
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.6
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Robustness/hi
+stogram}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Statistical analysis of some outputs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Results: ambiguous influence of walking radius
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.5
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Radius/hetero
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ Influence on heterogeneity time-series
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.5
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Radius/advers
+eRadius}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Influence on quantity of adverse events
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+ 
+\size default
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Exploration of the role of walking radius
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Results: significant influence of information
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Info/adverse}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\size footnotesize
+ Influence on quantity of adverse events
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=0.45
+\backslash
+textwidth]{/Users/Juste/Documents/ComplexSystems/CityBikes/Results/Info/detours}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Influence on quantity of detours
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+ 
+\size default
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Exploration of the role of quantity of information
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Conclusion
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+First step towards a comprehensive bottom-up of that hybrid transportation
+ system.
+ Parametrisation, calibration and exploration of a simple behavioral agent-based
+ model 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Significant qualitative and quantitative results concerning information,
+ less significant regarding walking radius (suggest deeper exploration of
+ the relation between topology and users through spatial feedbacks).
+ 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ideas on an online adaptative algorithm for a bottom-up pilotage of the
+ system, using stations as intelligent agents ? Link between adaptative
+ intelligent traffic lights and ant algorithms (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "monmarche2004algorithmes"
+
+\end_inset
+
+) ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{References}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/Juste/Documents/Cours/ComplexSystemsMadeSimple/project/Biblio/projetCSMS,/Users/Juste/Documents/ComplexSystems/Biblio/BibTeX/global,/Users/Juste/Documents/ComplexSystems/CityBikes/Biblio/bibtex,/Users/Juste/Documents/ComplexSystems/Biblio/Culture/BibTex/culture"
+options "apalike"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Questions
+\end_layout
+
+\begin_layout Standard
+
+\size largest
+\begin_inset space \hfill{}
+\end_inset
+
+
+\size giant
+?
+\size largest
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document

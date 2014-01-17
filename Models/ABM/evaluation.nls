@@ -8,6 +8,16 @@ to reset-reporters
   reset-load-factors
   
   ;;other things to reset ?
+  set total-travel-count 0
+  set total-out-travel-count 0
+  set current-travel-count 0
+  set current-out-travel-count 0
+  
+  set adv-number 0
+  
+  set cum-trav-speed 0
+  set cum-det-trav-speed 0
+  
 end
 
 
@@ -16,14 +26,74 @@ to reset-load-factors
 end
 
 
-
+;;specific procedure because on what the calibration should be done
 to store-reporters
-  
   ;;store new load factors
   ask stations [
     let i position id (first stations-characs) 
-    set load-factors replace-item i (replace-item ticks load-factor (item i load-factors)) load-factors
-  ]
-  
-  
+    set load-factors replace-item i load-factors (replace-item ticks (item i load-factors) load-factor )
+  ]  
 end
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; Final Reporters
+;;
+;; -> called only after the end of the day, correspond mainly to aggregated quantities
+;;;;;;;;;;;;;;;;;;;;
+
+
+
+to-report mean-travels-relative-speed
+  report cum-trav-speed / total-travel-count
+end
+
+;same as before but only on detoured travels
+to-report mean-detoured-travels-relative-speed
+  report cum-det-trav-speed / adv-number
+end
+
+to-report adverse-event-proportion
+  report adv-number / total-travel-count
+end
+
+
+
+;;Mean square error on all time series of load factors
+to-report mse-lf-timeseries
+  let res 0 let s 0 let t 0
+  foreach real-load-factors [foreach ? [set res res + ((? - item t item s load-factors) ^ 2) set t t + 1] set s s + 1 set t 0]
+  report res
+end
+
+
+
+;;;;;;;;;;;;;;;;;
+;; Temporal reporters
+;;
+;; -> report values at the current time tick
+;;;;;;;;;;;;;;;;;
+
+
+to-report mean-load-factor
+  report mean [load-factor] of stations
+end
+
+
+;;spatial heterogeneity index between stations
+to-report heterogeneity
+  let lstations to-list stations
+  let remaining-stat but-first lstations
+  let w 0 let s 0
+  foreach but-last lstations [
+    let s1 ?
+    foreach remaining-stat [
+      ask ? [set w w + (1 / distance s1) set s s + ((abs ([load-factor] of s1 - [load-factor] of ?)) / distance s1)]
+    ]
+    set remaining-stat but-first remaining-stat
+  ]
+  ;;always smaller than 1/2
+  report 2 * s / w
+end
+
+

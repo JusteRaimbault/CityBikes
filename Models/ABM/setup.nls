@@ -36,9 +36,15 @@ to setup
   calculate-cache
   
   ;;calculate and load other data
-  calculate-r-data
+  calculate-r-data false
   
   setup-initial-bikes
+  
+  
+  setup-display
+  
+  ;;reset ticks at the end for plot issues
+  reset-ticks
   
   output-print "Model set up, ready to run !"
   
@@ -50,7 +56,6 @@ end
 to setup-world-and-vars
   output-print "Setting up vars"
   clear-all
-  reset-ticks
   
   ;;we resize the world in gis data loading in order to have well dimensioned window
   
@@ -67,6 +72,13 @@ to setup-world-and-vars
   set real-time-step 1
   
   set mean-biker-speed 300
+  set mean-walker-speed 50
+  
+  
+  set departure-queue []
+  
+  set total-travel-count 0
+  set total-out-travel-count 0
 end
 
 
@@ -102,6 +114,10 @@ end
 to setup-bikers
   ;;should be used in test mode; also things to set in data mode ?
   
+  ;;;;;;;;;;;
+  ;; Ok nothing to do here a priori
+  ;;;;;;;;;;;
+  
 end
 
 
@@ -109,6 +125,22 @@ end
 
 to setup-stations
   output-print "Setting-up stations"
+  
+  ;;load data and create agents
+  create-stations-from-layer
+  
+  ;;connect stations to network: creates an intersection under the station (simpler), links it perpendiculary to nw using intersection
+  connect-stations-to-network
+  
+  ;;kills unuseful and bugging created links 
+  ask paths with [path-length = 0][ask one-of both-ends with-min [count my-links][die] die]
+  
+  ;;need reconnexification !
+  connexify-network
+  
+end
+
+to create-stations-from-layer
   ;;create abstract entities stations
   ;;load id, properties
   ;; ! need a file with stations properties ! - since GIS layer is done by hand, not in Attributes !
@@ -135,10 +167,6 @@ to setup-stations
     ]
     set i i + 1
   ]
-  
-  ;;connect stations to network: creates an intersection under the station (simpler), links it perpendiculary to nw using intersection
-  connect-stations-to-network
-  
 end
 
 
@@ -181,6 +209,18 @@ to setup-initial-bikes
     ask one-of stations with [id = item snum item 0 stations-characs ] [set standing-bikes round (first ? * capacity)] 
     set snum snum + 1
   ]
+end
+
+
+
+to clear
+  ;;does minimal setup when gis and data are already set
+  ask bikers [die]
+  setup-initial-bikes
+  set departure-queue []
+  reset-reporters
+  clear-all-plots
+  reset-ticks
 end
 
 

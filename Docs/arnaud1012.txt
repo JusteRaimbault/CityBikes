@@ -1,0 +1,29 @@
+
+flux dynamique
+
+-> agents liens pour visualiser processus destination (certains seulement)
+
+Q appoximations. ?
+
+pas distrib stat d(o,d) -> unité temporelle minimale
+
+pas rayon mais moins de n minutes.
+-> rajouter rayon pas utile ?
+
+-> info partout
+Faire évoluer l'info locale sur les stations -> algo adaptatif.
+
+
+Helbing Phystat
+sans bruiot on peut même aps reproduire.
+
+vaut mieux avoir
+
+algo distribué. pas seulment info, masi ou on le donne et comment. assymétrie remplissage.
+
+possibilité aux agents delargir leur carte cognitive.
+
+===================
+
+
+

@@ -74,7 +74,7 @@ end
 ;;to have conservation of probas ?
 ;;no let put some noise and extract approximated values
 ;; in mean: converges so ok
-to calculate-r-data
+to calculate-r-data[mapping?]
   output-print "Calculating R data"
   
   output-print "... extracting real travels"
@@ -116,22 +116,23 @@ to calculate-r-data
   output-print "... boundaries probas"
   ;io-vertices have at the end time serie of (n_trials) of the binomial law
   ;;init io vertices
-  ask io-vertices [set io-probas rep 0 total-time-steps]
-  ;;extract travel probas
-  let snum 0
-  foreach real-arrivals [
-    let stat one-of stations with [id = item snum item 0 stations-characs] let time 0
-    foreach ? [
-      let travel-nums ?
-      if travel-nums > 0 [
-        ask io-vertices [let travel-time (time - 1) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]];round ( cached-distance stat / mean-biker-speed) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]]
+  if not mapping? [ask io-vertices [set io-probas rep 0 total-time-steps]
+    ;;extract travel probas
+    let snum 0
+    foreach real-arrivals [
+      let stat one-of stations with [id = item snum item 0 stations-characs] let time 0
+      foreach ? [
+        let travel-nums ?
+        if travel-nums > 0 [
+          ask io-vertices [let travel-time (time - 1) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]];round ( cached-distance stat / mean-biker-speed) if (time - travel-time >= 0) [set io-probas incr-item time io-probas travel-nums]]
+        ]
+        set time time + 1
       ]
-      set time time + 1
+      set snum snum + 1 
+      set bound-prog round (100 * snum / (count stations))
     ]
-    set snum snum + 1 
-    set bound-prog round (100 * snum / (count stations))
-  ]
   
+  ]
   
   output-print "... getting kernel densities"
   ;;get kernel densities

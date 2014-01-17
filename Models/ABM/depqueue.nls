@@ -1,0 +1,18 @@
+;;departure queue procedure
+
+to put-in-dep-queue [time agent station]
+  set departure-queue sort-by [first ?1 <= first ?2] (fput (list time agent station) departure-queue)
+end
+
+
+to-report get-travelers-from-queue
+  if departure-queue = [] [report []]
+  let stop? (ticks < first first departure-queue)
+  let res []
+  while [not stop?][
+    set res lput (list item 1 first departure-queue item 2 first departure-queue) res
+    set departure-queue but-first departure-queue
+    set stop? departure-queue = [] or (ticks < first first departure-queue)
+  ]
+  report res
+end

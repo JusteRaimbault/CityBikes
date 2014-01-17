@@ -1,0 +1,128 @@
+;;;;;;;;;;;;;;;;;;
+;; Mapping of heat maps for load factors
+;; or cumulated flows on all a day
+;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;
+;; Heat map for load factors ?
+;;;;;;;;;;;;
+
+
+
+
+
+
+
+;;;;;;;;;;;;;
+;; flows
+;;;;;;;;;;;;;
+
+;;-> all Paris loaded.
+;;-> calculation of departures should work ?
+;;-> distrib of travel distance: take simple Gaussian
+;;-> origin: pick-origin is ok
+;;-> destination: pick destination within drawn distance ?
+
+
+to map-flows
+  ;;setup params: large prop of cache ?
+  ;setup-mapping
+  reset-ticks
+  
+  ;;graphical adjustements
+  ;;and representation
+  ask stations [set size 5]
+  clear-drawing
+  ask paths [set hidden? false set cumulated-flow 0]
+  
+  repeat total-time-steps [
+    let n item ticks departures-numbers
+    create-bikers n [
+      let o pick-origin
+      move-to o
+      let dist random-normal 2000 800
+      let d pick-destination-within-radius dist 400
+      let p get-symmetric-table cached-paths (list [who] of o [who] of d)
+      if p != 0 [ foreach p [ask ? [set cumulated-flow cumulated-flow + 1]]]
+      die
+    ]
+    
+    tick
+  ]
+  
+  ask paths [
+    set thickness cumulated-flow / 70
+    set color gradient:scale [[0 255 0][255 0 0]] cumulated-flow 0 (max [cumulated-flow] of paths)
+  ]
+  
+end
+
+
+;;special setup without some points
+to setup-mapping
+  setup-world-and-vars
+  
+  load-gis-data
+  
+  load-network
+  
+  ;;setup data
+  ;;needed for stations setup, but needs GIS setup !
+  setup-r-data
+  
+  create-stations-from-layer
+  
+  connexify-network
+
+  calculate-cache
+  
+  ;;calculate and load other data
+  calculate-r-data true
+  
+  setup-initial-bikes
+  
+  
+  setup-display
+  
+  ;;reset ticks at the end for plot issues
+  reset-ticks
+  
+end
+
+
+
+
+;;special procedure to pick destination within a radius
+
+to-report pick-destination-within-radius [radius tolerance]
+  let k 0 
+  let tot 0
+  foreach destination-probas [
+    let i floor (k / data-width-steps)
+    let j remainder k data-width-steps
+    let p patch min list (world-width - 1) floor (i * world-width / data-width-steps)  min list (world-height - 1) floor (j * world-height / data-width-steps)
+    if distance p * real-patch-size > (radius - tolerance) and distance p * real-patch-size < (radius + tolerance)[
+      set tot tot + item ticks ?
+    ]
+  ]
+  if tot = 0 [report one-of cached-vertices]
+  let r random-float tot
+  set tot 0
+  foreach destination-probas [
+     let i floor (k / data-width-steps)
+     let j remainder k data-width-steps
+     let p patch min list (world-width - 1) floor (i * world-width / data-width-steps)  min list (world-height - 1) floor (j * world-height / data-width-steps)
+     if distance p * real-patch-size > (radius - tolerance) and distance p * real-patch-size < (radius + tolerance)[
+       set tot tot + item ticks ?
+       if r < tot [
+         
+         report one-of cached-vertices with-min [distance p]
+       ]
+     ]
+     set k k + 1
+  ]
+  report one-of cached-vertices
+
+end

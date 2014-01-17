@@ -1,0 +1,861 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usetheme{Warsaw}
+%\usetheme{Boadilla}
+% or ...
+
+\usecolortheme{orchid}
+\setbeamertemplate{footline}[text line]{} % makes the footer EMPTY
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+
+\usepackage{bbm}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 2
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Statistical Analysis of a Bike Sharing Transportation System
+\end_layout
+
+\begin_layout Author
+J.
+\begin_inset space ~
+\end_inset
+
+Raimbault
+\begin_inset Formula $^{1,2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Institute
+\begin_inset Formula $^{1}$
+\end_inset
+
+Erasmus Mundus Master in Complex Systems Science, Ecole Polytechnique
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $^{2}$
+\end_inset
+
+LVMT, Ecole Nationale des Ponts et Chaussées
+\end_layout
+
+\begin_layout Date
+Therapeutic Evaluation and Complex Systems
+\begin_inset Newline newline
+\end_inset
+
+Oral Presentation
+\begin_inset Newline newline
+\end_inset
+
+December 18, 2013
+\end_layout
+
+\begin_layout BeginFrame
+Outline
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Bike-sharing systems
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+New flexible and ecological transportation system (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "demaio2009bike"
+
+\end_inset
+
+) ? Complementarity to other urban transportation modes (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "midgley2009role"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Understanding the mechanisms is necessary for its good management (ex optimizing
+ redistribution process) but also has intrinsic value (urban life patterns)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Many top-down approaches: statistical models (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "borgnat2009studying,borgnat2009modelisation"
+
+\end_inset
+
+,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "michau2011peut"
+
+\end_inset
+
+) or data-mining analysis (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "o2013mining"
+
+\end_inset
+
+,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vogel2011understanding,kaltenbrunner2010urban"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Objectives of the project
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Study of Paris' system (Vlib) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Statistical analysis of a large set of real data, general and with specific
+ purposes (e.
+ g.
+ parametrisation of an ABM), using existing or new methods
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+At the beginning, apply TE evaluation to relocation system but many issues.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data collection
+\end_layout
+
+\begin_layout BeginFrame
+Type and origin of data
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Public data provided by the operator in real time.
+ Problem: need a constantly running collection data process, and only docking
+ station status (limited information).
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Why not ask full travel data to operator ? Independant and open research
+ (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "banos2013HDR"
+
+\end_inset
+
+ ), reporting bias (in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nair2013large"
+
+\end_inset
+
+ results are not presented complete because company did not want for commercial
+ reasons).
+ We do a compromise, and see if we can however have good results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Also risk of inconscious spin in the description of results 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boutron2010reporting"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Data collection process
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename data.pdf
+	lyxscale 20
+	scale 45
+	BoundingBox 0bp 100bp 720bp 540bp
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Statistical analysis
+\end_layout
+
+\begin_layout BeginFrame
+Visualisation: mobility patterns
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Visu/availableBikes.pdf
+	lyxscale 30
+	scale 45
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Visualisation: heatmaps
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfmidnight.png
+	lyxscale 20
+	scale 30
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfMidday.png
+	lyxscale 20
+	scale 30
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Extraction of patterns: clustering time-series
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Aim: extract typical use patterns (more characteristic: difference week/weekends
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+First sampling of time series, then kmeans (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "warren2005clustering"
+
+\end_inset
+
+) on sampled series of all stations for a day: gives a reduced representation
+ of each day
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Clustering on days to isolate patterns
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Clustering process: role of sampling
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/clusterNumber.pdf
+	lyxscale 10
+	scale 25
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/infoLoss.pdf
+	lyxscale 10
+	scale 35
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Clustering: results
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.pdf
+	lyxscale 10
+	scale 25
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves.pdf
+	lyxscale 10
+	scale 25
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Inference of Origin/destinations in urban mobility
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Core of the parametrisation of the ABM, but also problem with its intrinsic
+ value (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "leurent2006modelisation"
+
+\end_inset
+
+ )
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Gaussian kernels non-parametric estimation (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tsybakov2004introduction"
+
+\end_inset
+
+) with package kernlab (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "karatzoglou2004kernlab"
+
+\end_inset
+
+).
+ With 
+\begin_inset Formula $(d_{i}(t))$
+\end_inset
+
+ real arrivals at 
+\begin_inset Formula $(\vec{x}_{i}(t))$
+\end_inset
+
+, 
+\begin_inset Formula $D(t)$
+\end_inset
+
+ spatial field is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+[D(t)](\vec{x})=\frac{1}{K}\sum_{i}d_{i}(t)\cdot exp(\frac{\left\Vert \vec{x}-\vec{x}_{i}\right\Vert }{2\sigma^{2}})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Example
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pdf
+	lyxscale 20
+	scale 40
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Mapping cumulated flows
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlows.png
+	lyxscale 30
+	scale 60
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Use of TE methods ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Idea: evaluate effect of redistribution procedure
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Docking stations are individuals, a treatment is a given area (day with
+ redistribution gives treated, without redistribution is control (but for
+ a similar day; use of clustering ?)).
+ Then do a meta-analysis on all areas.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Problem: not even implementable; problem of finding redistributed area,
+ size of areas, etc
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Conclusion
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Unfortunately did not go so far as expected.
+ However good results and powerful parametrisation for the ABM
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We can argue that these data were 
+\begin_inset Quotes eld
+\end_inset
+
+enough
+\begin_inset Quotes erd
+\end_inset
+
+ but still claim for a broader opening (since yesterday: www.data.gouv.fr !
+ )
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{References}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/Juste/Documents/Cours/TheoreticalAnalysisComplexSystems/Project/Biblio/biblio,/Users/Juste/Documents/Cours/TheoreticalAnalysisComplexSystems/Project/Biblio/TransportationSystemSafety,/Users/Juste/Documents/ComplexSystems/CityBikes/Biblio/bibtex,/Users/Juste/Documents/ComplexSystems/Biblio/Culture/BibTex/culture,/Users/Juste/Documents/ComplexSystems/Biblio/BibTeX/global"
+options "apalike"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Questions
+\end_layout
+
+\begin_layout Standard
+
+\size largest
+\begin_inset space \hfill{}
+\end_inset
+
+
+\size giant
+?
+\size largest
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document

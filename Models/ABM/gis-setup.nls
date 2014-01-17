@@ -22,7 +22,7 @@ to setup-geography
   setup-boundaries
   
   ;;setup display
-  setup-display
+  ;; -> at the end of all setup !
 end
 
 to load-gis-data
@@ -91,16 +91,10 @@ to setup-boundaries
        set candidates lput one-of [both-ends] of self candidates 
      ]
   ]
-  set io-vertices n-of (min list length candidates io-number) to-agentset candidates
+  set io-vertices n-of (min list (length candidates) io-number) to-agentset candidates
 end
 
 
 
-to setup-display
-  ;gis:set-drawing-color red
-  ;gis:draw stations-layer-data 2
-  ;gis:set-drawing-color brown
-  ;gis:draw paths-layer-data 1
-end
 
 
