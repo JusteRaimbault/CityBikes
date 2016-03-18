@@ -1,0 +1,604 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  22 SEP 2014 10:20
+entering extended mode
+ \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**report.tex
+(./report.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2009-06-19, ngerman-x-2009-06-19, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
+ icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
+iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
+ lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
+ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
+ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
+.
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/latin9.def
+File: latin9.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
+\Gm@dimlist=\toks17
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\@emptytoks=\toks18
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count90
+))
+\Gin@req@height=\dimen111
+\Gin@req@width=\dimen112
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/bbm-macros/bbm.sty
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen113
+\captionmargin@=\dimen114
+\captionwidth=\dimen115
+\caption@indent=\dimen116
+\caption@parindent=\dimen117
+\caption@hangindent=\dimen118
+)
+\c@ContinuedFloat=\count91
+)
+\c@KVtest=\count92
+\sf@farskip=\skip43
+\sf@captopadj=\dimen119
+\sf@capskip=\skip44
+\sf@nearskip=\skip45
+\c@subfigure=\count93
+\c@subfigure@save=\count94
+\c@lofdepth=\count95
+\c@subtable=\count96
+\c@subtable@save=\count97
+\c@lotdepth=\count98
+\sf@top=\skip46
+\sf@bottom=\skip47
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/babel/english.ldf
+Language: english 2005/03/30 v3.3o English support from the babel system
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count99
+\U@D=\dimen120
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+))
+(./report.aux)
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+Package geometry Warning: The marginal notes overrun the paper.
+     Add 4.86812pt and more to the right margin.
+
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 472.03123pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 638.47984pt, 85.35826pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=472.03123pt
+* \textheight=638.47984pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count100
+\scratchdimen=\dimen121
+\scratchbox=\box26
+\nofMPsegments=\count101
+\nofMParguments=\count102
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count103
+\MPscratchDim=\dimen122
+\MPnumerator=\count104
+\makeMPintoPDFobject=\count105
+\everyMPtoPDFconversion=\toks20
+) (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 28.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 38.
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 38.
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+
+LaTeX Warning: Citation `demaio2009bike' on page 1 undefined on input line 95.
+
+
+LaTeX Warning: Citation `midgley2009role' on page 1 undefined on input line 95.
+
+
+
+LaTeX Warning: Citation `lin2011hub' on page 1 undefined on input line 104.
+
+
+LaTeX Warning: Citation `lin2011strategic' on page 1 undefined on input line 10
+4.
+
+
+LaTeX Warning: Citation `nair2011fleet' on page 1 undefined on input line 106.
+
+
+LaTeX Warning: Citation `kek2006relocation' on page 1 undefined on input line 1
+06.
+
+
+LaTeX Warning: Citation `borgnat2009studying' on page 1 undefined on input line
+ 112.
+
+
+LaTeX Warning: Citation `borgnat2009modelisation' on page 1 undefined on input 
+line 112.
+
+
+LaTeX Warning: Citation `michau2011peut' on page 1 undefined on input line 113.
+
+
+
+LaTeX Warning: Citation `borgnat2009spatial' on page 1 undefined on input line 
+114.
+
+
+LaTeX Warning: Citation `jensen2010characterizing' on page 1 undefined on input
+ line 114.
+
+
+LaTeX Warning: Citation `o2013mining' on page 1 undefined on input line 116.
+
+
+LaTeX Warning: Citation `vogel2011understanding' on page 1 undefined on input l
+ine 117.
+
+
+LaTeX Warning: Citation `kaltenbrunner2010urban' on page 1 undefined on input l
+ine 117.
+
+
+LaTeX Warning: Citation `nair2013large' on page 1 undefined on input line 128.
+
+[1
+
+{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 144.
+
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+
+LaTeX Warning: Citation `banos2013HDR' on page 2 undefined on input line 165.
+
+
+LaTeX Warning: Citation `boutron2010reporting' on page 2 undefined on input lin
+e 171.
+
+
+LaTeX Warning: Citation `couture2013rjson' on page 2 undefined on input line 19
+2.
+
+
+LaTeX Warning: Citation `keitt2011rgdal' on page 2 undefined on input line 200.
+
+
+
+Package pdftex.def Warning: Option `bb' does not make sense,
+(pdftex.def)                using `viewport' instead on input line 208.
+
+<data.pdf, id=18, 722.7pt x 542.025pt>
+File: data.pdf Graphic file (type pdf)
+ <use data.pdf>
+Package pdftex.def Info: data.pdf used on input line 208.
+(pdftex.def)             Requested size: 325.21199pt x 198.74066pt.
+
+
+LaTeX Warning: Citation `o2013mining' on page 2 undefined on input line 224.
+
+[2]
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Visu/availableBikes.pd
+f, id=25, 844.15375pt x 597.23125pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Visu/availableBik
+es.pdf Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Visu/availableBike
+s.pdf>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Visu/availableBikes.pdf used on input line 246.
+(pdftex.def)             Requested size: 379.86568pt x 268.75157pt.
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfmidnight.png, 
+id=26, 804.00375pt x 498.86375pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfmidnight.
+png Graphic file (type png)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfmidnight.p
+ng>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Views/lfmidnight.png used on input line 270.
+(pdftex.def)             Requested size: 241.20299pt x 149.66028pt.
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfMidday.png, id
+=28, 804.00375pt x 498.86375pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfMidday.pn
+g Graphic file (type png)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/lfMidday.png
+>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Views/lfMidday.png used on input line 270.
+(pdftex.def)             Requested size: 241.20299pt x 149.66028pt.
+
+Overfull \hbox (13.70726pt too wide) in paragraph at lines 270--271
+[][][] 
+ []
+
+
+LaTeX Warning: Citation `vogel2011understanding' on page 3 undefined on input l
+ine 284.
+
+
+LaTeX Warning: Citation `borgnat2009modelisation' on page 3 undefined on input 
+line 291.
+
+
+LaTeX Warning: Citation `borgnat2009studying' on page 3 undefined on input line
+ 291.
+
+[3 <./data.pdf>] [4 </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Vi
+su/availableBikes.pdf> </Users/Juste/Documents/ComplexSystems/CityBikes/Results
+/Views/lfmidnight.png> </Users/Juste/Documents/ComplexSystems/CityBikes/Results
+/Views/lfMidday.png>]
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/clusterNumb
+er.pdf, id=154, 578.16pt x 578.16pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/cluste
+rNumber.pdf Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/cluster
+Number.pdf>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Clustering/clusterNumber.pdf used on input line 331.
+(pdftex.def)             Requested size: 202.35902pt x 202.35902pt.
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/infoLoss.pd
+f, id=155, 578.16pt x 578.16pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/infoLo
+ss.pdf Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/infoLos
+s.pdf>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Clustering/infoLoss.pdf used on input line 337.
+(pdftex.def)             Requested size: 202.35902pt x 202.35902pt.
+
+
+LaTeX Warning: Citation `warren2005clustering' on page 5 undefined on input lin
+e 347.
+
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.pdf, i
+d=156, 844.15375pt x 597.23125pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.p
+df Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.pd
+f>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Clustering/week.pdf used on input line 368.
+(pdftex.def)             Requested size: 211.03792pt x 149.30743pt.
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves.pdf,
+ id=157, 844.15375pt x 597.23125pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves
+.pdf Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves.
+pdf>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Clustering/curves.pdf used on input line 370.
+(pdftex.def)             Requested size: 211.03792pt x 149.30743pt.
+
+
+LaTeX Warning: Citation `leurent2006modelisation' on page 5 undefined on input 
+line 386.
+
+[5 </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/clusterN
+umber.pdf> </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/
+infoLoss.pdf>]
+
+LaTeX Warning: Citation `tsybakov2004introduction' on page 6 undefined on input
+ line 393.
+
+
+LaTeX Warning: Citation `karatzoglou2004kernlab' on page 6 undefined on input l
+ine 410.
+
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pdf, id
+=174, 578.16pt x 578.16pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pd
+f Graphic file (type pdf)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pdf
+>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Kernel/example.pdf used on input line 416.
+(pdftex.def)             Requested size: 231.2599pt x 231.2599pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 440.
+
+ (/usr/local/texlive/2011/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 440.
+
+
+LaTeX Warning: Citation `nair2013large' on page 6 undefined on input line 443.
+
+LaTeX Font Info:    Try loading font information for U+bbm on input line 444.
+(/usr/local/texlive/2011/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+) [6 </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/week.p
+df> </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Clustering/curves.
+pdf>]
+
+LaTeX Warning: Citation `NetLogo' on page 7 undefined on input line 454.
+
+
+</Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlows.pn
+g, id=189, 804.00375pt x 378.41376pt>
+File: /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlo
+ws.png Graphic file (type png)
+
+<use /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlow
+s.png>
+Package pdftex.def Info: /Users/Juste/Documents/ComplexSystems/CityBikes/Result
+s/Mapping/BikingFlows.png used on input line 463.
+(pdftex.def)             Requested size: 482.40598pt x 227.05pt.
+
+Overfull \hbox (10.37474pt too wide) in paragraph at lines 463--464
+[][] 
+ []
+
+No file report.bbl.
+[7 </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Kernel/example.pdf>
+] [8 </Users/Juste/Documents/ComplexSystems/CityBikes/Results/Mapping/BikingFlo
+ws.png>] (./report.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 4041 strings out of 493633
+ 62343 string characters out of 3143378
+ 126499 words of memory out of 3000000
+ 7248 multiletter control sequences out of 15000+200000
+ 19564 words of font info for 56 fonts, out of 3000000 for 9000
+ 831 hyphenation exceptions out of 8191
+ 44i,9n,45p,516b,342s stack positions out of 5000i,500n,10000p,200000b,50000s
+ </Users/Juste/Library/texlive/2011/texmf-var/fonts/pk/ljfour/public/bbm/bbm1
+0.600pk>{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t
+1.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10
+.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pf
+b></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
+/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
+cal/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local
+/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/l
+ocal/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></us
+r/local/texlive/2011/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/
+local/texlive/2011/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/lo
+cal/texlive/2011/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/loca
+l/texlive/2011/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/
+texlive/2011/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/te
+xlive/2011/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texl
+ive/2011/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texliv
+e/2011/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/
+2011/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/20
+11/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2011
+/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2011/t
+exmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2011/tex
+mf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
+Output written on report.pdf (8 pages, 1204444 bytes).
+PDF statistics:
+ 285 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+

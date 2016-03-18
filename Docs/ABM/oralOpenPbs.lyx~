@@ -834,6 +834,32 @@ Demonstration
 \end_layout
 
 \begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename /Users/Juste/Documents/ComplexSystems/CityBikes/Results/Views/running.png
+	lyxscale 10
+	scale 30
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \shape italic
 \size large
