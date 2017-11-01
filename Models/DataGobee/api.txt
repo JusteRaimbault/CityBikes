@@ -1,0 +1,2 @@
+http://aws.gobee.bike/GobeeBike/bikes/near_bikes?lat=48.85&lng=2.40&accuracy=20
+
