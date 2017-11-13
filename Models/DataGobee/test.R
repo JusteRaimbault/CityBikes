@@ -2,6 +2,7 @@
 library(rjson)
 library(httr)
 library(rgdal)
+library(dplyr)
 
 setwd(paste0(Sys.getenv('CS_HOME'),'/CityBikes/Models/DataGobee'))
 
@@ -66,6 +67,10 @@ res=data.frame(bikenum,glngmin,glngmax,glatmin,glatmax,resolutions)
 
 save(res,file='resol.RData')
 
+#############
 
+load('resol.RData')
+
+sres <- as.tbl(res) %>% group_by(resolutions) %>% summarise()
 
 
