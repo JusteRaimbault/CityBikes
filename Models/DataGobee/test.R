@@ -17,11 +17,15 @@ latmin=box[2,1];latmax=box[2,2]
 
 #plot(paris)
 
-resolutions=seq(4,20)
+resolutions=rep(seq(3,20),10)
 resolutions=sample(resolutions,size = length(resolutions),replace = F)
+#resolutions=c(4,3)
+i=0
 
 bikenum=c();glngmin=c();glatmin=c();glngmax=c();glatmax=c()
 for(resolution in resolutions){
+
+show(paste0(resolution," - ",i,"/",length(resolutions)))
 
 lngstep = (lngmax-lngmin)/resolution
 latstep = (latmax-latmin)/resolution
@@ -29,7 +33,7 @@ latstep = (latmax-latmin)/resolution
 allids = c();alllats=c();alllngs=c()
 for(lat in seq(latmin-(latmax-latmin)/2,latmax+(latmax-latmin)/2,latstep)){
   for(lng in seq(lngmin- (lngmax-lngmin)/2,lngmax+ (lngmax-lngmin)/2,lngstep)){
-    show(paste0(lng,' - ',lat))
+    #show(paste0(lng,' - ',lat))
     dat = content(GET(paste0("http://aws.gobee.bike/GobeeBike/bikes/near_bikes?lat=",lat,"&lng=",lng,"&accuracy=20")),type="application/json")
     bikes = dat[["data"]][["bikes"]]
 
@@ -47,11 +51,14 @@ for(lat in seq(latmin-(latmax-latmin)/2,latmax+(latmax-latmin)/2,latstep)){
     #}
   }
 }
+#show(allids)
 bikenum=append(bikenum,length(allids));
-glngmin=append(glngmin,min(alllngs));
-glngmax=append(glngmax,max(alllngs));
-glatmin=append(glatmin,min(alllats));
-glatmax=append(glatmax,max(alllats));
+glngmin=append(glngmin,min(unlist(alllngs)));
+glngmax=append(glngmax,max(unlist(alllngs)));
+glatmin=append(glatmin,min(unlist(alllats)));
+glatmax=append(glatmax,max(unlist(alllats)));
+
+i=i+1
 
 }
 
