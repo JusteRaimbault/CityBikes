@@ -3,6 +3,7 @@ library(rjson)
 library(httr)
 library(rgdal)
 library(dplyr)
+library(ggplot2)
 
 setwd(paste0(Sys.getenv('CS_HOME'),'/CityBikes/Models/DataGobee'))
 
