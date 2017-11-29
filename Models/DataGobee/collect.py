@@ -1,6 +1,15 @@
-import pymongo, utils, requests,shapefile, numpy, time
+import pymongo, requests,shapefile, numpy, time
 
 start = time.time()
+
+params = {
+  'dbport' : open('conf/dbport').readlines()[0].replace("\n",""),
+  'dbauth' : open('conf/dbauth').readlines()[0].replace("\n",""),
+  'dbname' : open('conf/dbname').readlines()[0].replace("\n","")
+}
+
+mongo = pymongo.MongoClient('mongodb://'+params['dbauth']+'@127.0.0.1:'+params['dbport'])
+database = mongo[params['dbname']]
 
 resolution = 10
 buff = 5
@@ -34,12 +43,12 @@ def collectCurrentData():
 
 
 def updateData(currentdata):
-    #print(len(currentdata))
+    #print(currentdata)
     records = []
     cacheddata = database['cache'].find()
     prevdata = {}
     for c in cacheddata :
-        prev[c['number']] = c
+        prevdata[c['number']] = c
     for bid in currentdata.keys():
         b=currentdata[bid]
         if bid in prevdata.keys():
@@ -53,14 +62,15 @@ def updateData(currentdata):
             records.append(b)
     for bid in prevdata.keys():
         if bid not in currentdata.keys() :
-            b=currentdata[bid]
+            b=prevdata[bid]
             # disapp data is superflous
             drec = {}
             drec['number']=bid;drec['ts']=b['ts'];drec['type']='D'
             records.append(drec)
-    database['data'].insert_many(records)
+    if len(records)>0 :
+        database['data'].insert_many(records)
     database['cache'].delete_many({})
-    database['cache'].insert_many(currentdata)
+    database['cache'].insert_many(currentdata.values())
 
 
 def runCollection():
