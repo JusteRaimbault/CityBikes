@@ -5,11 +5,14 @@ library(rgdal)
 library(dplyr)
 library(ggplot2)
 
+source(paste0(Sys.getenv('CN_HOME'),'/Models/Utils/R/plots.R'))
+
 setwd(paste0(Sys.getenv('CS_HOME'),'/CityBikes/Models/DataGobee'))
 
 #paris = readOGR(dsn = '../../Data/gis/','paris')
 idf = readOGR(dsn = '../../Data/gis/','irisidf')
 paris = spTransform(idf[substr(idf$DEPCOM,1,2)=="75",],CRSobj = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+#writeOGR(paris,'gis','paris',driver = "ESRI Shapefile")
 
 # "http://aws.gobee.bike/GobeeBike/bikes/near_bikes?lat=48.85&lng=2.40&accuracy=20"
 
@@ -89,12 +92,28 @@ show(paste0("Ellapsed time : ",(proc.time()[3]-startall),"s"))
 #############
 
 #load('resol.RData')
+load('buffers.RData')
 
-#sres <- as.tbl(res) %>% group_by(resolutions) %>% summarise(bikenumsd=sd(bikenum),bikes=mean(bikenum))
+#sres <- as.tbl(res) %>% group_by(resolution) %>% summarise(bikenumsd=sd(bikenum),bikes=mean(bikenum))
+sres <- as.tbl(res) %>% group_by(cresols,cbuffers) %>% summarise(bikenumsd=sd(bikenum),bikes=mean(bikenum),buffer=mean(cbuffers))
 
-#g=ggplot(sres,aes(x=resolutions,y=bikes,ymin=bikes-bikenumsd,ymax=bikes+bikenumsd))
-#g+geom_point()+geom_line()+geom_errorbar()+xlab("Resolution")+ylab("Number of bikes")+stdtheme
-#ggsave(filename = 'resol.png',width = 15,height = 10,units = 'cm')
+g=ggplot(sres,aes(x=resolutions,y=bikes,ymin=bikes-bikenumsd,ymax=bikes+bikenumsd))
+g+geom_point()+geom_line()+geom_errorbar()+xlab("Resolution")+ylab("Number of bikes")+stdtheme
+ggsave(filename = 'resol.png',width = 15,height = 10,units = 'cm')
+
+
+g=ggplot(sres,aes(x=buffer,y=bikes,ymin=bikes-bikenumsd,ymax=bikes+bikenumsd))
+g+geom_point()+geom_line()+geom_errorbar()+xlab("Buffer")+ylab("Number of bikes")+stdtheme
+ggsave(filename = 'buffer.png',width = 15,height = 10,units = 'cm')
+
+
+## running times
+sres = as.tbl(res) %>% group_by(cbuffers) %>% summarise(timesd=sd(ctimes),time=mean(ctimes))
+g=ggplot(sres,aes(x=cbuffers,y=time,ymin=time-timesd,ymax=time+timesd))
+g+geom_point()+geom_line()+geom_errorbar()+xlab("Buffer")+ylab("Running time")+stdtheme
+ggsave(filename = 'runningtime.png',width = 15,height = 10,units = 'cm')
+# should be quadratic ?
+summary(lm(data=sres,time~cbuffers))
 
 
 
