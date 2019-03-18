@@ -15,6 +15,7 @@ paris = spTransform(idf[substr(idf$DEPCOM,1,2)=="75",],CRSobj = "+proj=longlat +
 #writeOGR(paris,'gis','paris',driver = "ESRI Shapefile")
 
 # "http://aws.gobee.bike/GobeeBike/bikes/near_bikes?lat=48.85&lng=2.40&accuracy=20"
+# "https://www.velib-metropole.fr/webapi/map/details?gpsTopLatitude=48.90&gpsTopLongitude=2.46&gpsBotLatitude=48.81&gpsBotLongitude=2.22&zoomLevel=15"
 
 box=bbox(paris)
 lngmin=box[1,1];lngmax=box[1,2]
@@ -50,6 +51,7 @@ for(resolution in resolutions){
       for(lng in seq(lngmin- (lngmax-lngmin)*buffer/resolution,lngmax+(lngmax-lngmin)*buffer/resolution,lngstep)){
         #show(paste0(lng,' - ',lat))
         dat = content(GET(paste0("http://aws.gobee.bike/GobeeBike/bikes/near_bikes?lat=",lat,"&lng=",lng,"&accuracy=20")),type="application/json")
+        #dat = content(GET("https://www.velib-metropole.fr/webapi/map/details?gpsTopLatitude=48.90&gpsTopLongitude=2.46&gpsBotLatitude=48.81&gpsBotLongitude=2.22&zoomLevel=15"))
         bikes = dat[["data"]][["bikes"]]
         
         lats = sapply(bikes,function(l){l$gLat})
