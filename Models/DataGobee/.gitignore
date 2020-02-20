@@ -1,4 +1,6 @@
-conf
-dbtest
+#log
+#run
+#conf
+#dbtest
 __pycache__
 
