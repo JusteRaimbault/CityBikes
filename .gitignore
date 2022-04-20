@@ -6,7 +6,6 @@ Data/gis/ile-de-france-latestshp
 Data/.Rhistory
 
 Models/DataCollection/apiKey
-
-Models/DataCollection/getRemoteData
-Models/DataCollection
+#Models/DataCollection/getRemoteData
+#Models/DataCollection
 
